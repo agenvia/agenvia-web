@@ -6,7 +6,7 @@ import {
   PageHero,
   PageSection,
   SiteChrome,
-} from "@/components/promptrak/primitives";
+} from "@/components/agenvia/primitives";
 import { getAlerts, getMetrics, getMetricsDetails, getReadiness } from "@/lib/api/ops";
 import { getPatternStats } from "@/lib/api/patterns";
 import type { PolicyAction } from "@/lib/api/types";
@@ -59,7 +59,7 @@ export default async function DashboardPage() {
       <PageHero
         eyebrow="Admin Dashboard"
         title="Operational maturity without dashboard noise."
-        description="Live metrics, policy posture, and system health pulled directly from the Promptrak backend."
+        description="Live metrics, policy posture, and system health pulled directly from the Agenvia backend."
       />
 
       <PageSection

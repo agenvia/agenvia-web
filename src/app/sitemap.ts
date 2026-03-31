@@ -1,4 +1,4 @@
-import { siteConfig, useCases } from "@/lib/promptrak-content";
+import { siteConfig, useCases } from "@/lib/agenvia-content";
 import { MetadataRoute } from "next";
 
 export default function sitemap(): MetadataRoute.Sitemap {

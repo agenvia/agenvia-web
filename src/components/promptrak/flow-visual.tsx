@@ -11,7 +11,7 @@ import {
   Sparkles,
 } from "lucide-react";
 
-import { GlassCard } from "@/components/promptrak/primitives";
+import { GlassCard } from "@/components/agenvia/primitives";
 
 const flow = [
   { label: "Raw Prompt",               icon: FileSymlink, tone: "bg-zinc-800 text-zinc-100" },

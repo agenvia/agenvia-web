@@ -139,7 +139,7 @@ function Sidebar({ active, onNavigate }: { active: Screen; onNavigate: (s: Scree
           <Shield className="h-4 w-4 text-teal-400" />
         </div>
         <div className="leading-none">
-          <div className="text-sm font-bold text-zinc-50 tracking-tight">Promptrak</div>
+          <div className="text-sm font-bold text-zinc-50 tracking-tight">Agenvia</div>
           <div className="text-[10px] text-zinc-500 mt-0.5">Security Control Plane</div>
         </div>
       </div>

@@ -10,8 +10,8 @@ import { Icons } from "@/components/icons";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { footerColumns, navLinks, siteConfig } from "@/lib/promptrak-content";
-import type { PlaceholderAsset } from "@/lib/promptrak-placeholders";
+import { footerColumns, navLinks, siteConfig } from "@/lib/agenvia-content";
+import type { PlaceholderAsset } from "@/lib/agenvia-placeholders";
 import { cn } from "@/lib/utils";
 
 const rise = {
@@ -36,7 +36,7 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
               </span>
               <span className="translate-y-[-0.02em] text-sm font-medium text-zinc-500">|</span>
               <span className="text-[1.08rem] font-bold tracking-[-0.04em] text-white">
-                Promptrak
+                Agenvia
               </span>
             </div>
           </Link>
@@ -89,7 +89,7 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
               The control plane for trusted enterprise AI.
             </div>
             <p className="max-w-md text-sm leading-6 text-zinc-400">
-              Promptrak detects, sanitizes, blocks, audits, and federates
+              Agenvia detects, sanitizes, blocks, audits, and federates
               privacy intelligence before sensitive data reaches an LLM.
             </p>
             <div className="flex max-w-md gap-3">
@@ -234,7 +234,7 @@ export function ComparisonTable({
       <div className="grid grid-cols-[1.4fr_1fr_1fr] border-b border-zinc-800 px-6 py-4 text-sm font-medium text-zinc-500">
         <div>Capability</div>
         <div>Generic redaction tools</div>
-        <div>Promptrak</div>
+        <div>Agenvia</div>
       </div>
       {rows.map((row) => (
         <div

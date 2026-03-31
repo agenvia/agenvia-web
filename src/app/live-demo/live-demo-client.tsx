@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { useGateway } from "@/hooks/use-gateway";
-import { GlassCard } from "@/components/promptrak/primitives";
+import { GlassCard } from "@/components/agenvia/primitives";
 import type { GatewayPromptResponse, PolicyAction } from "@/lib/api/types";
 
 // ── Personas ────────────────────────────────────────────────────────────────
@@ -224,7 +224,7 @@ export default function LiveDemoClient() {
               disabled={loading || !prompt.trim() || registering}
               className="rounded-2xl bg-teal-600 px-6 py-3 text-sm font-semibold text-white hover:bg-teal-500 disabled:opacity-40 transition-colors"
             >
-              {loading ? "Processing through security pipeline…" : "Run through Promptrak →"}
+              {loading ? "Processing through security pipeline…" : "Run through Agenvia →"}
             </button>
             {error && <p className="text-sm text-rose-600">Error: {error}</p>}
           </GlassCard>

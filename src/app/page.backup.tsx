@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 
-import { FlowVisual } from "@/components/promptrak/flow-visual";
+import { FlowVisual } from "@/components/agenvia/flow-visual";
 import {
   ComparisonTable,
   FeatureCard,
@@ -13,15 +13,15 @@ import {
   PlaceholderPanel,
   SiteChrome,
   UseCaseGrid,
-} from "@/components/promptrak/primitives";
+} from "@/components/agenvia/primitives";
 import {
   benchmarkMetrics,
   comparisonRows,
   homepageUseCases,
   howItWorks,
   trustBar,
-} from "@/lib/promptrak-content";
-import { placeholderAssets } from "@/lib/promptrak-placeholders";
+} from "@/lib/agenvia-content";
+import { placeholderAssets } from "@/lib/agenvia-placeholders";
 
 export default function HomeBackup() {
   return (
@@ -29,7 +29,7 @@ export default function HomeBackup() {
       <PageHero
         eyebrow="Enterprise AI Security Platform"
         title="Control every token before it reaches your LLM."
-        description="Promptrak enforces identity-aware access control, detects sensitive data across languages, governs agent tools, and federates privacy intelligence - all in one active gateway layer."
+        description="Agenvia enforces identity-aware access control, detects sensitive data across languages, governs agent tools, and federates privacy intelligence - all in one active gateway layer."
         primaryCta={{ href: "/pricing", label: "Book Demo" }}
         secondaryCta={{ href: "/live-demo", label: "See Live Flow" }}
         aside={<FlowVisual />}
@@ -48,7 +48,7 @@ export default function HomeBackup() {
       <PageSection
         eyebrow="How It Works"
         title="Nine security layers. One composable gateway."
-        description="Promptrak processes every request through identity verification, threat detection, policy decision, prompt transformation, and output inspection - before and after every model call."
+        description="Agenvia processes every request through identity verification, threat detection, policy decision, prompt transformation, and output inspection - before and after every model call."
       >
         <div className="grid gap-4 lg:grid-cols-5">
           {howItWorks.map((item) => (
@@ -60,7 +60,7 @@ export default function HomeBackup() {
       <PageSection
         eyebrow="Why It Wins"
         title="Not another generic redaction layer."
-        description="Generic DLP tools redact text. Promptrak enforces who can do what, blocks attacks in five languages, governs agent tools, and makes privacy intelligence smarter with every request."
+        description="Generic DLP tools redact text. Agenvia enforces who can do what, blocks attacks in five languages, governs agent tools, and makes privacy intelligence smarter with every request."
       >
         <ComparisonTable rows={comparisonRows} />
       </PageSection>

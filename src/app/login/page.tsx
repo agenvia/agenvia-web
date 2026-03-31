@@ -43,7 +43,7 @@ export default function LoginPage() {
             <Shield className="h-5 w-5 text-teal-400" />
           </div>
           <div>
-            <div className="text-sm font-semibold text-zinc-100">Promptrak</div>
+            <div className="text-sm font-semibold text-zinc-100">Agenvia</div>
             <div className="text-xs text-zinc-500">Security Console</div>
           </div>
         </div>

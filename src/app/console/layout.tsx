@@ -44,7 +44,7 @@ function Sidebar() {
           <Shield className="h-4 w-4 text-teal-400" />
         </div>
         <div>
-          <div className="text-sm font-semibold text-zinc-100 leading-none">Promptrak</div>
+          <div className="text-sm font-semibold text-zinc-100 leading-none">Agenvia</div>
           <div className="text-[10px] text-zinc-500 mt-0.5">
             {isAdmin ? "Platform Admin" : "Security Console"}
           </div>
@@ -58,7 +58,7 @@ function Sidebar() {
             <div className="flex items-center gap-1.5 rounded-md border border-teal-500/20 bg-teal-500/10 px-2 py-1">
               <Globe className="h-3 w-3 text-teal-400" />
               <span className="text-[10px] font-semibold uppercase tracking-widest text-teal-400">
-                Promptrak Admin
+                Agenvia Admin
               </span>
             </div>
           ) : (

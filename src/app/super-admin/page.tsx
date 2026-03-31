@@ -167,7 +167,7 @@ function Sidebar({ active, setActive, logout }: { active: Screen; setActive: (s:
           <Shield className="h-4 w-4 text-teal-400" />
         </div>
         <div>
-          <p className="text-xs font-bold text-zinc-100 leading-none">Promptrak</p>
+          <p className="text-xs font-bold text-zinc-100 leading-none">Agenvia</p>
           <p className="text-[10px] text-teal-400 font-semibold mt-0.5">Super Admin</p>
         </div>
       </div>
@@ -210,7 +210,7 @@ function TopHeader({ onRefresh, loading }: { onRefresh: () => void; loading: boo
   return (
     <header className="sticky top-0 z-20 flex h-12 items-center justify-between border-b border-zinc-800 bg-zinc-950/95 px-6 backdrop-blur-xl">
       <div className="flex items-center gap-2">
-        <span className="text-xs font-semibold text-zinc-400">Promptrak Control Center</span>
+        <span className="text-xs font-semibold text-zinc-400">Agenvia Control Center</span>
         <ChevronRight className="h-3 w-3 text-zinc-700" />
         <span className="text-xs text-zinc-600">Platform Ops</span>
       </div>

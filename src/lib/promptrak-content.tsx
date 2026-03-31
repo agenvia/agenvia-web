@@ -31,10 +31,10 @@ import {
 } from "lucide-react";
 
 export const siteConfig = {
-  name: "Promptrak",
-  shortName: "Promptrak",
+  name: "Agenvia",
+  shortName: "Agenvia",
   description:
-    "The Enterprise AI Security Platform. Promptrak enforces identity-aware access control, detects sensitive data, governs agent tools, and federates privacy intelligence — all before a single token reaches an LLM.",
+    "The Enterprise AI Security Platform. Agenvia enforces identity-aware access control, detects sensitive data, governs agent tools, and federates privacy intelligence — all before a single token reaches an LLM.",
   url: process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000",
   keywords: [
     "enterprise AI security",
@@ -274,7 +274,7 @@ export const useCases: UseCase[] = [
     icon: Users,
     workflowPain:
       "HR teams paste employee records, offer details, and performance context into copilots without enough guardrails.",
-    fit: "Promptrak detects personal data, minimizes sensitive context, and keeps audit trails for employee-facing AI workflows.",
+    fit: "Agenvia detects personal data, minimizes sensitive context, and keeps audit trails for employee-facing AI workflows.",
     before:
       "Summarize concerns from Sarah Nguyen's performance plan and include compensation context from FY26 review doc EMP-1842.",
     after:
@@ -289,7 +289,7 @@ export const useCases: UseCase[] = [
     icon: Landmark,
     workflowPain:
       "Legal teams need drafting speed, but confidential clauses, hold references, and client names should not spill into general-purpose models.",
-    fit: "Promptrak routes sensitive requests with stricter policy, stronger minimization, and outbound leakage protection.",
+    fit: "Agenvia routes sensitive requests with stricter policy, stronger minimization, and outbound leakage protection.",
     before:
       "Compare this indemnity clause to the NOVA acquisition draft and flag issues tied to LEGAL_HOLD_2026.",
     after:
@@ -304,7 +304,7 @@ export const useCases: UseCase[] = [
     icon: Handshake,
     workflowPain:
       "Buyers want help summarizing bids and supplier negotiations, but internal margins and room codes are highly sensitive.",
-    fit: "Promptrak identifies bid-room references and strategic pricing context before a model sees the prompt.",
+    fit: "Agenvia identifies bid-room references and strategic pricing context before a model sees the prompt.",
     before:
       "Draft a supplier response using BID_ROOM_KEP and internal target margin for Project Atlas renewal.",
     after:
@@ -319,7 +319,7 @@ export const useCases: UseCase[] = [
     icon: Briefcase,
     workflowPain:
       "Sales teams copy account notes, renewals, and objections into assistants, often mixing customer and internal strategy data.",
-    fit: "Promptrak strips unnecessary identifiers and blocks outputs that echo internal planning language back to users.",
+    fit: "Agenvia strips unnecessary identifiers and blocks outputs that echo internal planning language back to users.",
     before:
       "Write a renewal email for Apex based on PROJECT_CODE_DELTA, discount guardrails, and renewal risk notes from Amy.",
     after:
@@ -334,7 +334,7 @@ export const useCases: UseCase[] = [
     icon: Microscope,
     workflowPain:
       "Researchers want model assistance for analysis and drafting, but internal experiments, prototype names, and secret methods cannot leak.",
-    fit: "Promptrak detects project identifiers, minimizes proprietary context, and keeps sensitive workflows local when required.",
+    fit: "Agenvia detects project identifiers, minimizes proprietary context, and keeps sensitive workflows local when required.",
     before:
       "Summarize experiment results for PROJECT_CODE_ASTER and propose next steps using the internal catalyst notes.",
     after:

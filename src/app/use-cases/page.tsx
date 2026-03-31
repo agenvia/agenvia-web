@@ -7,8 +7,8 @@ import {
   PageHero,
   PageSection,
   SiteChrome,
-} from "@/components/promptrak/primitives";
-import { useCases } from "@/lib/promptrak-content";
+} from "@/components/agenvia/primitives";
+import { useCases } from "@/lib/agenvia-content";
 
 export default function UseCasesPage() {
   return (

@@ -7,13 +7,13 @@ import {
   PlaceholderPanel,
   SiteChrome,
   Timeline,
-} from "@/components/promptrak/primitives";
+} from "@/components/agenvia/primitives";
 import {
   architectureLayers,
   featureBlocks,
   requestTimeline,
-} from "@/lib/promptrak-content";
-import { placeholderAssets } from "@/lib/promptrak-placeholders";
+} from "@/lib/agenvia-content";
+import { placeholderAssets } from "@/lib/agenvia-placeholders";
 
 export default function ProductPage() {
   return (
@@ -21,7 +21,7 @@ export default function ProductPage() {
       <PageHero
         eyebrow="Product Overview"
         title="A 9-layer security platform for enterprise AI."
-        description="Promptrak sits between your tools and every LLM. It enforces identity-aware access, detects threats in multiple languages, governs agent tool calls, and improves privacy intelligence through federated learning — in one deployable layer."
+        description="Agenvia sits between your tools and every LLM. It enforces identity-aware access, detects threats in multiple languages, governs agent tool calls, and improves privacy intelligence through federated learning — in one deployable layer."
         secondaryCta={{ href: "/live-demo", label: "See Live Flow" }}
         aside={<PlaceholderPanel asset={placeholderAssets.productArchitecture} />}
       />

@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { useRetirePattern } from "@/hooks/use-retire-pattern";
-import { GlassCard, DrawerPanel } from "@/components/promptrak/primitives";
+import { GlassCard, DrawerPanel } from "@/components/agenvia/primitives";
 import type { FLPattern, PatternStats, PatternStatus } from "@/lib/api/types";
 
 const statusStyles: Record<PatternStatus, string> = {

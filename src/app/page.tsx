@@ -15,8 +15,8 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { useCallback, useState } from "react";
-import { SiteChrome } from "@/components/promptrak/primitives";
-import PipelineAnimation from "@/components/promptrak/pipeline-animation";
+import { SiteChrome } from "@/components/agenvia/primitives";
+import PipelineAnimation from "@/components/agenvia/pipeline-animation";
 
 // ─── Role Sandbox Evaluator ───────────────────────────────────────────────────
 
@@ -266,9 +266,9 @@ const COMPLIANCE_STATS = [
 
 const CODE_SNIPPET = `# One import. Three lines.
 
-from promptrak import Promptrak
+from agenvia import Agenvia
 
-client = Promptrak(api_key="tp_...")
+client = Agenvia(api_key="tp_...")
 
 decision = client.evaluate(
   prompt=user_prompt,
@@ -342,7 +342,7 @@ export default function Home() {
               transition={{ duration: 0.6, delay: 0.24, ease: [0.16, 1, 0.3, 1] }}
               className="mt-4 max-w-md text-sm leading-7 text-zinc-500"
             >
-              Promptrak sits between your application and your LLM. Every
+              Agenvia sits between your application and your LLM. Every
               prompt is classified, every policy is enforced, every decision
               is permanently recorded — in 232ms.
             </motion.p>
@@ -388,7 +388,7 @@ export default function Home() {
               <span className="text-zinc-400 font-bold">Every decision.</span>
             </h2>
             <p className="mt-4 text-sm text-zinc-500 leading-7">
-              Watch Promptrak intercept threats in real time across all five control layers — intent, identity, consequence, session, and audit.
+              Watch Agenvia intercept threats in real time across all five control layers — intent, identity, consequence, session, and audit.
             </p>
             <div className="mt-6 space-y-2.5">
               {[
@@ -428,7 +428,7 @@ export default function Home() {
                 <span className="text-zinc-400 font-bold">Complete governance.</span>
               </h2>
               <p className="mt-4 max-w-lg text-sm text-zinc-500 leading-7">
-                Your agent sends the prompt. Promptrak returns a decision. Your agent proceeds — or stops.
+                Your agent sends the prompt. Agenvia returns a decision. Your agent proceeds — or stops.
               </p>
             </motion.div>
 
@@ -514,7 +514,7 @@ export default function Home() {
                 <span className="text-zinc-400 font-bold">3 lines of code.</span>
               </h2>
               <p className="mt-5 text-sm text-zinc-500 leading-7">
-                Promptrak is middleware, not a proxy. You keep your LLM API key,
+                Agenvia is middleware, not a proxy. You keep your LLM API key,
                 your model choice, your rate limits. We govern the decision layer.
               </p>
               <div className="mt-8 space-y-4">
@@ -546,7 +546,7 @@ export default function Home() {
                 <span className="h-2.5 w-2.5 rounded-full bg-rose-500/70" />
                 <span className="h-2.5 w-2.5 rounded-full bg-amber-500/70" />
                 <span className="h-2.5 w-2.5 rounded-full bg-teal-500/70" />
-                <span className="ml-3 text-[10px] text-zinc-600 font-mono">promptrak_integration.py</span>
+                <span className="ml-3 text-[10px] text-zinc-600 font-mono">agenvia_integration.py</span>
               </div>
               <pre className="p-5 text-xs font-mono leading-[1.8] overflow-x-auto">
                 {CODE_SNIPPET.split("\n").map((line, i) => {

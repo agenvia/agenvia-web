@@ -129,7 +129,7 @@ export default function ConsolePage() {
             </h2>
             <p className="mt-1 text-sm text-zinc-400 max-w-lg">
               {isAdmin
-                ? "Cross-tenant visibility across all Promptrak client organizations — global metrics, alerts, and federated learning status."
+                ? "Cross-tenant visibility across all Agenvia client organizations — global metrics, alerts, and federated learning status."
                 : "Real-time visibility into your AI gateway — every prompt, policy decision, and security event across your organization."}
             </p>
           </div>

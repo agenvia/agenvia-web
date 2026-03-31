@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
-import { SiteChrome } from "@/components/promptrak/primitives";
+import { SiteChrome } from "@/components/agenvia/primitives";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://127.0.0.1:8000";
 
@@ -262,13 +262,13 @@ const TOC = [
 // ── Code samples ───────────────────────────────────────────────────────────────
 
 const SAMPLES: Record<string, { file: string; code: string }> = {
-  "Promptrak SDK": {
+  "Agenvia SDK": {
     file: "quickstart.py",
-    code: `pip install promptrak
+    code: `pip install agenvia
 
-from promptrak import Promptrak
+from agenvia import Agenvia
 
-client = Promptrak(api_key="tp_...", tenant_id="acme")
+client = Agenvia(api_key="tp_...", tenant_id="acme")
 
 # Tier 1 — evaluate before every LLM call
 decision = client.evaluate(prompt, actor_id="agent-1")
@@ -326,13 +326,13 @@ else:
     print(r["model_response"])`,
   },
   LangChain: {
-    file: "promptrak_langchain.py",
-    code: `from promptrak import Promptrak
+    file: "agenvia_langchain.py",
+    code: `from agenvia import Agenvia
 from langchain.schema import HumanMessage
 
-client = Promptrak(api_key="tp_...", tenant_id="org_a")
+client = Agenvia(api_key="tp_...", tenant_id="org_a")
 
-class PromptrakLLM:
+class AgenviaLLM:
     """Drop-in LLM wrapper — replaces any LangChain LLM."""
 
     def __init__(self, user_id: str):
@@ -347,19 +347,19 @@ class PromptrakLLM:
         prompt_to_use = decision.safe_prompt if decision.action == "minimize" else prompt
         return my_llm.complete(prompt_to_use)
 
-llm = PromptrakLLM(user_id="nurse_jane")
+llm = AgenviaLLM(user_id="nurse_jane")
 response = llm.invoke([HumanMessage(content="Summarize MRN-8821")])`,
   },
   "OpenAI Agents SDK": {
-    file: "promptrak_openai_agents.py",
+    file: "agenvia_openai_agents.py",
     code: `from agents import Agent, Runner, input_guardrail, output_guardrail
 from agents import GuardrailFunctionOutput, RunContextWrapper
-from promptrak import Promptrak
+from agenvia import Agenvia
 
-client = Promptrak(api_key="tp_...", tenant_id="org_a")
+client = Agenvia(api_key="tp_...", tenant_id="org_a")
 
 @input_guardrail
-async def promptrak_input_guard(ctx: RunContextWrapper, agent, input):
+async def agenvia_input_guard(ctx: RunContextWrapper, agent, input):
     decision = client.evaluate(
         str(input),
         actor_id=ctx.context.get("user_id", "agent"),
@@ -370,7 +370,7 @@ async def promptrak_input_guard(ctx: RunContextWrapper, agent, input):
     )
 
 @output_guardrail
-async def promptrak_output_guard(ctx: RunContextWrapper, agent, output):
+async def agenvia_output_guard(ctx: RunContextWrapper, agent, output):
     # Scrub the final output using the session from the input guard
     session_id = ctx.context.get("session_id")
     if session_id:
@@ -382,19 +382,19 @@ async def promptrak_output_guard(ctx: RunContextWrapper, agent, output):
 agent = Agent(
     name="SecureAgent",
     instructions="You are a helpful assistant.",
-    input_guardrails=[promptrak_input_guard],
-    output_guardrails=[promptrak_output_guard],
+    input_guardrails=[agenvia_input_guard],
+    output_guardrails=[agenvia_output_guard],
 )
 result = Runner.run_sync(agent, "Summarize MRN-8821",
                          context={"user_id": "nurse_jane"})`,
   },
   CrewAI: {
-    file: "promptrak_crewai.py",
+    file: "agenvia_crewai.py",
     code: `from crewai import Crew, Task, Agent
 from crewai.flow.flow import before_kickoff, after_kickoff
-from promptrak import Promptrak
+from agenvia import Agenvia
 
-client = Promptrak(api_key="tp_...", tenant_id="org_a")
+client = Agenvia(api_key="tp_...", tenant_id="org_a")
 
 class SecureCrew(Crew):
 
@@ -405,7 +405,7 @@ class SecureCrew(Crew):
             actor_id=inputs.get("user_id", "agent"),
         )
         if decision.action == "block":
-            raise PermissionError(f"Promptrak blocked: {decision.policy_trace}")
+            raise PermissionError(f"Agenvia blocked: {decision.policy_trace}")
         inputs["prompt"] = decision.safe_prompt
         return inputs
 
@@ -419,14 +419,14 @@ class SecureCrew(Crew):
 task = Task(description="Summarize MRN-8821", max_retries=1)`,
   },
   "Microsoft Agent Framework": {
-    file: "promptrak_ms_agent.py",
+    file: "agenvia_ms_agent.py",
     code: `from microsoft_agent_framework import AgentMiddleware, AgentContext
 from microsoft_agent_framework import FunctionMiddleware, FunctionInvocationContext
-from promptrak import Promptrak
+from agenvia import Agenvia
 
-client = Promptrak(api_key="tp_...", tenant_id="org_a")
+client = Agenvia(api_key="tp_...", tenant_id="org_a")
 
-class PromptrakInputMiddleware(AgentMiddleware):
+class AgenviaInputMiddleware(AgentMiddleware):
     """Gate 1 (input) + Gate 4 (output)."""
 
     async def process(self, context: AgentContext, call_next):
@@ -442,13 +442,13 @@ class PromptrakInputMiddleware(AgentMiddleware):
         await call_next()
 
         if context.result:
-            session_id = getattr(context, "_promptrak_session", None)
+            session_id = getattr(context, "_agenvia_session", None)
             if session_id:
                 context.result.text = client.scrub_output(
                     context.result.text, session_id=session_id
                 )
 
-class PromptrakToolMiddleware(FunctionMiddleware):
+class AgenviaToolMiddleware(FunctionMiddleware):
     """Gate 2: authorize before every tool call."""
 
     async def process(self, context: FunctionInvocationContext, call_next):
@@ -463,16 +463,16 @@ class PromptrakToolMiddleware(FunctionMiddleware):
         await call_next()`,
   },
   "Google ADK": {
-    file: "promptrak_google_adk.py",
+    file: "agenvia_google_adk.py",
     code: `from google.adk.agents import Agent
 from google.adk.agents.callback_context import CallbackContext
 from google.adk.models.llm_request import LlmRequest
 from google.adk.tools.tool_context import ToolContext
-from promptrak import Promptrak
+from agenvia import Agenvia
 
-client = Promptrak(api_key="tp_...", tenant_id="org_a")
+client = Agenvia(api_key="tp_...", tenant_id="org_a")
 
-def promptrak_before_model(callback_context: CallbackContext, llm_request: LlmRequest):
+def agenvia_before_model(callback_context: CallbackContext, llm_request: LlmRequest):
     """Gate 1: block before model is called."""
     prompt = llm_request.contents[-1].parts[0].text if llm_request.contents else ""
     decision = client.evaluate(
@@ -487,7 +487,7 @@ def promptrak_before_model(callback_context: CallbackContext, llm_request: LlmRe
         ]))
     return None
 
-def promptrak_before_tool(tool, args: dict, tool_context: ToolContext):
+def agenvia_before_tool(tool, args: dict, tool_context: ToolContext):
     """Gate 2: authorize before tool execution."""
     auth = client.authorize_tool(
         tool.name,
@@ -501,8 +501,8 @@ def promptrak_before_tool(tool, args: dict, tool_context: ToolContext):
 agent = Agent(
     name="secure_agent",
     model="gemini-2.0-flash",
-    before_model_callback=promptrak_before_model,
-    before_tool_callback=promptrak_before_tool,
+    before_model_callback=agenvia_before_model,
+    before_tool_callback=agenvia_before_tool,
 )`,
   },
   curl: {
@@ -753,7 +753,7 @@ function VaultFlowDiagram() {
 // ── Page ─────────────────────────────────────────────────────────────────────
 
 export default function DevelopersPage() {
-  const [framework, setFramework] = useState("Promptrak SDK");
+  const [framework, setFramework] = useState("Agenvia SDK");
   const [platformTab, setPlatformTab] = useState("LangChain");
   const [apiStatus, setApiStatus] = useState<"checking" | "live" | "down">("checking");
 
@@ -810,14 +810,14 @@ export default function DevelopersPage() {
               </div>
               <h1 className="text-3xl font-bold tracking-tight text-zinc-50">Developer Reference</h1>
               <p className="mt-2 text-base leading-7 text-zinc-400">
-                Integrate Promptrak into any AI agent — LangChain, OpenAI Agents SDK, CrewAI,
+                Integrate Agenvia into any AI agent — LangChain, OpenAI Agents SDK, CrewAI,
                 Microsoft Agent Framework, Google ADK, or plain HTTP.
               </p>
               <div className="mt-4 flex items-center gap-3">
-                <code className="rounded-lg border border-zinc-700 bg-zinc-900 px-4 py-2 text-sm font-mono text-teal-300">pip install promptrak</code>
-                <a href="https://pypi.org/project/promptrak/" target="_blank" rel="noopener noreferrer"
+                <code className="rounded-lg border border-zinc-700 bg-zinc-900 px-4 py-2 text-sm font-mono text-teal-300">pip install agenvia</code>
+                <a href="https://pypi.org/project/agenvia/" target="_blank" rel="noopener noreferrer"
                   className="text-xs text-zinc-500 hover:text-zinc-300 transition-colors">PyPI ↗</a>
-                <a href="https://github.com/promptrak/promptrak-python" target="_blank" rel="noopener noreferrer"
+                <a href="https://github.com/agenvia/agenvia-python" target="_blank" rel="noopener noreferrer"
                   className="text-xs text-zinc-500 hover:text-zinc-300 transition-colors">GitHub ↗</a>
               </div>
             </div>
@@ -892,7 +892,7 @@ export default function DevelopersPage() {
             <H2 id="quickstart">Quickstart</H2>
             <div className="rounded-lg border border-zinc-700 overflow-hidden">
               <Tabs
-                items={["Promptrak SDK", "Python", "LangChain", "OpenAI Agents SDK", "CrewAI", "Microsoft Agent Framework", "Google ADK", "curl"]}
+                items={["Agenvia SDK", "Python", "LangChain", "OpenAI Agents SDK", "CrewAI", "Microsoft Agent Framework", "Google ADK", "curl"]}
                 active={framework}
                 onChange={setFramework}
               />
@@ -1084,7 +1084,7 @@ Authorization: Bearer <access_token>`}
                 <Badge color="teal">Reference Architecture</Badge>
               </div>
               <p className="text-sm text-zinc-400">
-                Promptrak provides the control points. What makes an agent truly secure is
+                Agenvia provides the control points. What makes an agent truly secure is
                 whether the runtime treats those controls as gates (fail-closed) or hints (fail-open).
               </p>
             </div>
@@ -1113,7 +1113,7 @@ Authorization: Bearer <access_token>`}
               <Badge color="zinc">Framework-agnostic</Badge>
             </div>
             <p className="text-sm text-zinc-400 mb-4">
-              You own the agent code. Promptrak is the security kernel. Wrap your existing framework using the hook points below — no rewrite required.
+              You own the agent code. Agenvia is the security kernel. Wrap your existing framework using the hook points below — no rewrite required.
               The SDK makes this the default path: one method call per gate.
             </p>
             <div className="rounded-lg border border-zinc-700 bg-zinc-900/50 divide-y divide-zinc-800 overflow-hidden">
@@ -1257,7 +1257,7 @@ result = db.delete(params)`}
             {/* ── Platform Guides ──────────────────────────────────────── */}
             <H2 id="platform-guides">Platform Integration Guides</H2>
             <p className="text-sm text-zinc-400 mb-4">
-              How to connect Promptrak at each gate using each platform&apos;s native extension mechanism.
+              How to connect Agenvia at each gate using each platform&apos;s native extension mechanism.
             </p>
             <div className="rounded-xl border border-zinc-700 overflow-hidden">
               <Tabs items={platforms} active={platformTab} onChange={setPlatformTab} />
@@ -1279,7 +1279,7 @@ result = db.delete(params)`}
                   <span className="font-semibold text-blue-300">Note: </span>
                   {PLATFORM_HOOKS[platformTab].notes}
                 </div>
-                <CodeBlock filename={`promptrak_${platformTab.toLowerCase().replace(/\s+/g, "_")}.py`}>
+                <CodeBlock filename={`agenvia_${platformTab.toLowerCase().replace(/\s+/g, "_")}.py`}>
                   {SAMPLES[platformTab]?.code ?? `# Integration sample for ${platformTab}`}
                 </CodeBlock>
               </div>
@@ -1380,7 +1380,7 @@ audit_log.write({
             <div className="my-4 rounded-xl border border-zinc-700 bg-zinc-900/50 overflow-hidden">
               <div className="px-4 py-2.5 border-b border-zinc-700 text-xs font-semibold text-zinc-400 uppercase tracking-wider">Compliance mapping</div>
               <Table
-                head={["Requirement", "Promptrak feature", "Endpoint"]}
+                head={["Requirement", "Agenvia feature", "Endpoint"]}
                 rows={[
                   ["GDPR Art. 22 — automated decision record", "Audit chain entry per gateway call", "GET /audit-chain/record/{seq}"],
                   ["HIPAA — access log integrity", "Tamper-evident cryptographic chain", "GET /audit-chain/verify"],
@@ -1425,7 +1425,7 @@ audit_log.write({
 
             {/* Footer */}
             <div className="mt-14 pt-6 border-t border-zinc-700 flex flex-wrap items-center justify-between gap-4">
-              <p className="text-sm text-zinc-500">Promptrak Developer Docs</p>
+              <p className="text-sm text-zinc-500">Agenvia Developer Docs</p>
               <div className="flex gap-4">
                 <a href="#try-it" className="text-sm text-teal-600 hover:text-teal-300 font-medium">Try Live Demo</a>
                 <Link href="/" className="text-sm text-zinc-500 hover:text-zinc-300">Back to home</Link>

@@ -3,7 +3,7 @@ import {
   PageHero,
   PageSection,
   SiteChrome,
-} from "@/components/promptrak/primitives";
+} from "@/components/agenvia/primitives";
 import { getAlerts } from "@/lib/api/ops";
 import type { AlertSeverity } from "@/lib/api/types";
 

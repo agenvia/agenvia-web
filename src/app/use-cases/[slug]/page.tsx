@@ -6,8 +6,8 @@ import {
   PageHero,
   PageSection,
   SiteChrome,
-} from "@/components/promptrak/primitives";
-import { useCases } from "@/lib/promptrak-content";
+} from "@/components/agenvia/primitives";
+import { useCases } from "@/lib/agenvia-content";
 
 export function generateStaticParams() {
   return useCases.map((item) => ({ slug: item.slug }));
@@ -63,7 +63,7 @@ export default function UseCaseDetailPage({
             </GlassCard>
           </div>
           <div className="space-y-4">
-            <DrawerPanel title="How Promptrak Fits">
+            <DrawerPanel title="How Agenvia Fits">
               <p>{useCase.fit}</p>
             </DrawerPanel>
             <DrawerPanel title="Compliance / Audit Angle">

@@ -5,8 +5,8 @@ import {
   PageHero,
   PageSection,
   SiteChrome,
-} from "@/components/promptrak/primitives";
-import { trustPrinciples } from "@/lib/promptrak-content";
+} from "@/components/agenvia/primitives";
+import { trustPrinciples } from "@/lib/agenvia-content";
 
 export default function TrustPage() {
   return (
@@ -14,7 +14,7 @@ export default function TrustPage() {
       <PageHero
         eyebrow="About / Trust"
         title="Enterprise AI is moving faster than its security."
-        description="DLP tools were built for files, not prompts. They redact text but ignore who is asking, what action they intend, or whether an agent tool call should be allowed. Promptrak closes that gap with a platform built specifically for LLM-era security."
+        description="DLP tools were built for files, not prompts. They redact text but ignore who is asking, what action they intend, or whether an agent tool call should be allowed. Agenvia closes that gap with a platform built specifically for LLM-era security."
       />
 
       <PageSection

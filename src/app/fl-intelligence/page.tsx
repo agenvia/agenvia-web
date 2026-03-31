@@ -5,7 +5,7 @@ import {
   PageHero,
   PageSection,
   SiteChrome,
-} from "@/components/promptrak/primitives";
+} from "@/components/agenvia/primitives";
 import { listPatterns, getPatternStats } from "@/lib/api/patterns";
 import type { FLPattern } from "@/lib/api/types";
 
@@ -57,7 +57,7 @@ export default async function FLIntelligencePage() {
     <SiteChrome>
       <PageHero
         eyebrow="FL Intelligence"
-        title="How Promptrak learns without centralizing raw data."
+        title="How Agenvia learns without centralizing raw data."
         description="Live federated learning analytics — tenant nodes, promoted patterns, shadow rejects, and contribution breakdowns from the real backend."
       />
 

@@ -377,7 +377,7 @@ export default function PipelineAnimation() {
         {/* ── Footer ── */}
         <div className="flex items-center justify-between px-5 py-3 border-t border-zinc-800">
           <span className="text-[9px] font-mono tracking-wide text-zinc-700">
-            promptrak · 5-layer eval · real-time
+            agenvia · 5-layer eval · real-time
           </span>
           <div className="flex items-center gap-1">
             {SCENARIOS.map((_, i) => (
