@@ -309,98 +309,70 @@ export default function Home() {
     <SiteChrome>
 
       {/* ── Hero ─────────────────────────────────────────────────────────── */}
-      <section className="relative container py-24 md:py-32 overflow-hidden">
+      <section className="relative container py-28 md:py-36 overflow-hidden">
         {/* Ambient glow */}
-        <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(ellipse_70%_55%_at_55%_-5%,rgba(20,184,166,0.07),transparent)]" />
+        <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(ellipse_70%_55%_at_50%_-5%,rgba(20,184,166,0.08),transparent)]" />
 
-        <div className="mx-auto max-w-6xl grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-
-          {/* Left */}
-          <div>
-            <motion.div
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-              className="inline-flex items-center gap-2 rounded-full border border-zinc-700/70 bg-zinc-900/80 px-3.5 py-1.5 mb-8 shadow-[0_0_0_1px_rgba(255,255,255,0.03)]"
-            >
-              <span className="h-1.5 w-1.5 rounded-full bg-teal-400" />
-              <span className="text-xs font-medium text-zinc-300">Agent security middleware</span>
-            </motion.div>
-
-            <motion.h1
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.08, ease: [0.16, 1, 0.3, 1] }}
-              className="font-heading text-5xl font-black leading-[1.05] tracking-tight text-white md:text-6xl lg:text-7xl"
-            >
-              Secure and govern
-              <br />
-              <span className="text-teal-400">your AI agents.</span>
-            </motion.h1>
-
-            <motion.p
-              initial={{ opacity: 0, y: 14 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.16, ease: [0.16, 1, 0.3, 1] }}
-              className="mt-5 text-base font-semibold text-zinc-300 tracking-tight"
-            >
-              Block attacks. Enforce policy. Prove it happened.
-            </motion.p>
-
-            <motion.p
-              initial={{ opacity: 0, y: 14 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.24, ease: [0.16, 1, 0.3, 1] }}
-              className="mt-4 max-w-md text-sm leading-7 text-zinc-500"
-            >
-              Agenvia sits between your application and your LLM. Every
-              prompt is classified, every policy is enforced, every decision
-              is permanently recorded — in 232ms.
-            </motion.p>
-
-            <motion.div
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.26, ease: [0.16, 1, 0.3, 1] }}
-              className="mt-8 flex flex-wrap gap-3"
-            >
-              <Link
-                href="/signup"
-                className="rounded-full bg-teal-600 px-6 py-3 text-sm font-semibold text-white shadow-[0_0_0_1px_rgba(20,184,166,0.4)] transition-all hover:bg-teal-500 hover:shadow-[0_0_20px_rgba(20,184,166,0.25)]"
-              >
-                Get started free
-              </Link>
-              <Link
-                href="/developers"
-                className="flex items-center gap-1.5 rounded-full border border-zinc-700 px-6 py-3 text-sm font-medium text-zinc-300 transition-all hover:border-zinc-500 hover:text-white hover:bg-white/[0.03]"
-              >
-                Read the docs <ChevronRight className="h-3.5 w-3.5" />
-              </Link>
-            </motion.div>
-          </div>
-
-          {/* Right */}
+        <div className="mx-auto max-w-3xl text-center">
           <motion.div
-            initial={{ opacity: 0, y: 24 }}
+            initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="rounded-2xl border border-zinc-800 border-t-teal-500/40 bg-zinc-900 overflow-hidden shadow-[0_32px_64px_-16px_rgba(0,0,0,0.6)]"
+            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+            className="inline-flex items-center gap-2 rounded-full border border-zinc-700/70 bg-zinc-900/80 px-3.5 py-1.5 mb-8 shadow-[0_0_0_1px_rgba(255,255,255,0.03)]"
           >
-            {/* Header */}
-            <div className="px-6 py-5 border-b border-zinc-800 bg-zinc-950/50">
-              <p className="text-[10px] font-bold uppercase tracking-[0.28em] text-teal-500 mb-1">Start in 60 seconds</p>
-              <h2 className="text-lg font-semibold text-zinc-50">Secure your agent today</h2>
-            </div>
+            <span className="h-1.5 w-1.5 rounded-full bg-teal-400" />
+            <span className="text-xs font-medium text-zinc-300">Agent security middleware</span>
+          </motion.div>
 
-            {/* CTA */}
-            <div className="px-6 py-5 border-t border-zinc-800 bg-zinc-950/40 space-y-3">
-              <Link
-                href="/signup"
-                className="w-full flex items-center justify-center gap-2 rounded-lg bg-teal-600 hover:bg-teal-500 px-5 py-3 text-sm font-semibold text-white transition-colors shadow-[0_0_20px_rgba(20,184,166,0.15)]"
-              >
-                Get started free
-              </Link>
-            </div>
+          <motion.h1
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.08, ease: [0.16, 1, 0.3, 1] }}
+            className="font-heading text-5xl font-black leading-[1.05] tracking-tight text-white md:text-6xl lg:text-7xl"
+          >
+            Secure and govern
+            <br />
+            <span className="text-teal-400">your AI agents.</span>
+          </motion.h1>
+
+          <motion.p
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.16, ease: [0.16, 1, 0.3, 1] }}
+            className="mt-5 text-base font-semibold text-zinc-300 tracking-tight"
+          >
+            Block attacks. Enforce policy. Prove it happened.
+          </motion.p>
+
+          <motion.p
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.24, ease: [0.16, 1, 0.3, 1] }}
+            className="mt-4 text-sm leading-7 text-zinc-500 max-w-xl mx-auto"
+          >
+            Agenvia sits between your application and your LLM. Every
+            prompt is classified, every policy is enforced, every decision
+            is permanently recorded — in 232ms.
+          </motion.p>
+
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.26, ease: [0.16, 1, 0.3, 1] }}
+            className="mt-10 flex flex-wrap justify-center gap-3"
+          >
+            <Link
+              href="/signup"
+              className="rounded-full bg-teal-600 px-7 py-3 text-sm font-semibold text-white shadow-[0_0_0_1px_rgba(20,184,166,0.4)] transition-all hover:bg-teal-500 hover:shadow-[0_0_20px_rgba(20,184,166,0.25)]"
+            >
+              Get started free
+            </Link>
+            <Link
+              href="/developers"
+              className="flex items-center gap-1.5 rounded-full border border-zinc-700 px-7 py-3 text-sm font-medium text-zinc-300 transition-all hover:border-zinc-500 hover:text-white hover:bg-white/[0.03]"
+            >
+              Read the docs <ChevronRight className="h-3.5 w-3.5" />
+            </Link>
           </motion.div>
         </div>
       </section>
