@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 
-import { FlowVisual } from "@/components/agenvia/flow-visual";
+import { FlowVisual } from "@/components/promptrak/flow-visual";
 import {
   ComparisonTable,
   FeatureCard,
@@ -13,15 +13,15 @@ import {
   PlaceholderPanel,
   SiteChrome,
   UseCaseGrid,
-} from "@/components/agenvia/primitives";
+} from "@/components/promptrak/primitives";
 import {
   benchmarkMetrics,
   comparisonRows,
   homepageUseCases,
   howItWorks,
   trustBar,
-} from "@/lib/agenvia-content";
-import { placeholderAssets } from "@/lib/agenvia-placeholders";
+} from "@/lib/promptrak-content";
+import { placeholderAssets } from "@/lib/promptrak-placeholders";
 
 export default function HomeBackup() {
   return (

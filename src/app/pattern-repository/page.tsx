@@ -2,7 +2,7 @@ import {
   PageHero,
   PageSection,
   SiteChrome,
-} from "@/components/agenvia/primitives";
+} from "@/components/promptrak/primitives";
 import { listPatterns } from "@/lib/api/patterns";
 import type { FLPattern, PatternStats } from "@/lib/api/types";
 import PatternTable from "./pattern-table";

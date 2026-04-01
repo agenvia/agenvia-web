@@ -1,4 +1,4 @@
-import { siteConfig } from "@/lib/agenvia-content";
+import { siteConfig } from "@/lib/promptrak-content";
 import { type ClassValue, clsx } from "clsx";
 import { Metadata } from "next";
 import { twMerge } from "tailwind-merge";

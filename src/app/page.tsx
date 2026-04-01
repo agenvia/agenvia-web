@@ -15,8 +15,8 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { useCallback, useState } from "react";
-import { SiteChrome } from "@/components/agenvia/primitives";
-import PipelineAnimation from "@/components/agenvia/pipeline-animation";
+import { SiteChrome } from "@/components/promptrak/primitives";
+import PipelineAnimation from "@/components/promptrak/pipeline-animation";
 
 // ─── Role Sandbox Evaluator ───────────────────────────────────────────────────
 

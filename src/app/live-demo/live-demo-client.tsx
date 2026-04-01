@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { useGateway } from "@/hooks/use-gateway";
-import { GlassCard } from "@/components/agenvia/primitives";
+import { GlassCard } from "@/components/promptrak/primitives";
 import type { GatewayPromptResponse, PolicyAction } from "@/lib/api/types";
 
 // ── Personas ────────────────────────────────────────────────────────────────

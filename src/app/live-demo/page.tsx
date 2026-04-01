@@ -1,10 +1,10 @@
-import { placeholderAssets } from "@/lib/agenvia-placeholders";
+import { placeholderAssets } from "@/lib/promptrak-placeholders";
 import {
   PageHero,
   PageSection,
   PlaceholderPanel,
   SiteChrome,
-} from "@/components/agenvia/primitives";
+} from "@/components/promptrak/primitives";
 import LiveDemoClient from "./live-demo-client";
 
 export default function LiveDemoPage() {

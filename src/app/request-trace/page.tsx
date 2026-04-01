@@ -6,7 +6,7 @@ import {
   PageHero,
   PageSection,
   SiteChrome,
-} from "@/components/agenvia/primitives";
+} from "@/components/promptrak/primitives";
 import type { GatewayPromptResponse } from "@/lib/api/types";
 
 function formatDate(iso: string) {

@@ -1,6 +1,7 @@
 import { cn, constructMetadata } from "@/lib/utils";
 import type { Metadata, Viewport } from "next";
 import { Inter, Sora } from "next/font/google";
+import { ClerkProvider } from "@clerk/nextjs";
 import "./globals.css";
 
 const heading = Sora({
@@ -29,16 +30,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body
-        className={cn(
-          heading.variable,
-          body.variable,
-          "min-h-screen bg-background antialiased w-full mx-auto scroll-smooth font-body"
-        )}
-      >
-        {children}
-      </body>
-    </html>
+    <ClerkProvider>
+      <html lang="en" suppressHydrationWarning>
+        <body
+          className={cn(
+            heading.variable,
+            body.variable,
+            "min-h-screen bg-background antialiased w-full mx-auto scroll-smooth font-body"
+          )}
+        >
+          {children}
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }

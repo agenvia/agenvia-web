@@ -2,6 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Hide Clerk branding */
+.cl-internal-b3fm6y,
+.cl-internal-1dauvpw,
+.cl-footerPages {
+  display: none !important;
+}
+
 @layer base {
   :root {
     color-scheme: dark;

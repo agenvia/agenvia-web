@@ -6,7 +6,7 @@ import {
   PageHero,
   PageSection,
   SiteChrome,
-} from "@/components/agenvia/primitives";
+} from "@/components/promptrak/primitives";
 import { getAlerts, getMetrics, getMetricsDetails, getReadiness } from "@/lib/api/ops";
 import { getPatternStats } from "@/lib/api/patterns";
 import type { PolicyAction } from "@/lib/api/types";

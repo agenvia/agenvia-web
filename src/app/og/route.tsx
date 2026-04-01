@@ -1,5 +1,5 @@
 import { Icons } from "@/components/icons";
-import { siteConfig } from "@/lib/agenvia-content";
+import { siteConfig } from "@/lib/promptrak-content";
 import { ImageResponse } from "next/og";
 import { NextRequest } from "next/server";
 

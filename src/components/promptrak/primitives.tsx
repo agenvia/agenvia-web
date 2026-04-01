@@ -10,8 +10,8 @@ import { Icons } from "@/components/icons";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { footerColumns, navLinks, siteConfig } from "@/lib/agenvia-content";
-import type { PlaceholderAsset } from "@/lib/agenvia-placeholders";
+import { footerColumns, navLinks, siteConfig } from "@/lib/promptrak-content";
+import type { PlaceholderAsset } from "@/lib/promptrak-placeholders";
 import { cn } from "@/lib/utils";
 
 const rise = {

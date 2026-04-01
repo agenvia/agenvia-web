@@ -7,13 +7,13 @@ import {
   PlaceholderPanel,
   SiteChrome,
   Timeline,
-} from "@/components/agenvia/primitives";
+} from "@/components/promptrak/primitives";
 import {
   architectureLayers,
   featureBlocks,
   requestTimeline,
-} from "@/lib/agenvia-content";
-import { placeholderAssets } from "@/lib/agenvia-placeholders";
+} from "@/lib/promptrak-content";
+import { placeholderAssets } from "@/lib/promptrak-placeholders";
 
 export default function ProductPage() {
   return (

@@ -3,8 +3,8 @@ import {
   PageHero,
   PageSection,
   SiteChrome,
-} from "@/components/agenvia/primitives";
-import { pricingTiers } from "@/lib/agenvia-content";
+} from "@/components/promptrak/primitives";
+import { pricingTiers } from "@/lib/promptrak-content";
 
 export default function PricingPage() {
   return (

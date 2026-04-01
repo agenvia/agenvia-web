@@ -5,8 +5,8 @@ import {
   PageHero,
   PageSection,
   SiteChrome,
-} from "@/components/agenvia/primitives";
-import { trustPrinciples } from "@/lib/agenvia-content";
+} from "@/components/promptrak/primitives";
+import { trustPrinciples } from "@/lib/promptrak-content";
 
 export default function TrustPage() {
   return (

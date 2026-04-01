@@ -4,8 +4,8 @@ import {
   PageHero,
   PageSection,
   SiteChrome,
-} from "@/components/agenvia/primitives";
-import { policyCards } from "@/lib/agenvia-content";
+} from "@/components/promptrak/primitives";
+import { policyCards } from "@/lib/promptrak-content";
 
 export default function PolicyStudioPage() {
   return (

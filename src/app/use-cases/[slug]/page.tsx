@@ -6,8 +6,8 @@ import {
   PageHero,
   PageSection,
   SiteChrome,
-} from "@/components/agenvia/primitives";
-import { useCases } from "@/lib/agenvia-content";
+} from "@/components/promptrak/primitives";
+import { useCases } from "@/lib/promptrak-content";
 
 export function generateStaticParams() {
   return useCases.map((item) => ({ slug: item.slug }));
