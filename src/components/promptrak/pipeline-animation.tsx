@@ -193,10 +193,9 @@ export default function PipelineAnimation() {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.2 }}
       transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
-      className="relative rounded-[28px] border border-zinc-800 bg-zinc-900/80 shadow-[0_30px_80px_-38px_rgba(0,0,0,0.6)] backdrop-blur-sm overflow-hidden w-full"
+      className="relative rounded-[28px] border border-zinc-800 bg-zinc-900 shadow-[0_30px_80px_-38px_rgba(0,0,0,0.6)] overflow-hidden w-full"
     >
       {/* Radial teal glow — matches ReferenceStyleDiagram */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_10%,rgba(20,184,166,0.08),transparent_26%)] pointer-events-none" />
 
       <div className="relative">
 
