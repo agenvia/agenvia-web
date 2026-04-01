@@ -469,20 +469,19 @@ export default function Home() {
                   key={f.title}
                   {...rise}
                   transition={{ ...rise.transition, delay: i * 0.07 }}
-                  className="group rounded-2xl border border-zinc-800/80 bg-gradient-to-b from-zinc-900 to-zinc-950 p-6 flex flex-col gap-4 hover:-translate-y-1 hover:border-zinc-700 hover:shadow-[0_20px_40px_-12px_rgba(0,0,0,0.5)] transition-all duration-300"
+                  className="group relative rounded-2xl border border-zinc-800 bg-zinc-900 p-6 flex flex-col gap-4 overflow-hidden hover:-translate-y-1 hover:border-teal-500/30 hover:shadow-[0_20px_60px_-12px_rgba(20,184,166,0.12)] transition-all duration-300"
                 >
-                  <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-zinc-700/60 bg-zinc-800/80 group-hover:border-teal-500/30 group-hover:bg-teal-500/10 transition-colors duration-300">
-                    <f.icon className="h-5 w-5 text-zinc-400 group-hover:text-teal-400 transition-colors duration-300" />
+                  <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,rgba(20,184,166,0.05),transparent_60%)] opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+                  <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-teal-500/20 bg-teal-500/10">
+                    <f.icon className="h-5 w-5 text-teal-400" />
                   </div>
                   <div>
-                    <h3 className="text-sm font-bold text-white leading-snug">{f.title}</h3>
-                    <p className="mt-2 text-sm text-zinc-500 leading-6">{f.body}</p>
+                    <h3 className="text-sm font-semibold text-zinc-100 leading-snug">{f.title}</h3>
+                    <p className="mt-2 text-sm text-zinc-400 leading-6">{f.body}</p>
                   </div>
-                  {f.stat ? (
-                  <div className="mt-auto pt-3 border-t border-zinc-800/60">
-                    <p className="text-[11px] font-semibold text-teal-500/80">{f.stat}</p>
+                  <div className="mt-auto pt-3 border-t border-zinc-800">
+                    <div className="h-0.5 w-8 rounded-full bg-teal-500/40" />
                   </div>
-                  ) : null}
                 </motion.div>
               ))}
             </div>
