@@ -20,7 +20,6 @@ export default function SignUpPage() {
               card: "border border-zinc-800 bg-zinc-900 shadow-none rounded-xl",
               footer: "bg-zinc-900 border-t border-zinc-800 rounded-b-xl",
               footerActionText: "text-zinc-500 text-xs",
-              footerActionLink: "text-teal-400 hover:text-teal-300 text-xs",
               footerPages: "!hidden",
               headerTitle: "text-lg font-semibold text-zinc-50",
               headerSubtitle: "text-sm text-zinc-400",
