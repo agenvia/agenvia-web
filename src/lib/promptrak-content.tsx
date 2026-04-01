@@ -50,12 +50,7 @@ export const siteConfig = {
 };
 
 export const navLinks = [
-  { href: "/product", label: "Product" },
   { href: "/developers", label: "Developers" },
-  { href: "/live-demo", label: "Live Demo" },
-  { href: "/console", label: "Dashboard" },
-  { href: "/fl-intelligence", label: "FL Intelligence" },
-  { href: "/policy-studio", label: "Policy Studio" },
   { href: "/pricing", label: "Pricing" },
   { href: "/trust", label: "Trust" },
 ];
