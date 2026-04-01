@@ -1,10 +1,10 @@
-import { SignUp } from "@clerk/nextjs";
+import { SignIn } from "@clerk/nextjs";
 
-export default function SignUpPage() {
+export default function SignInPage() {
   return (
     <div className="min-h-screen bg-zinc-950 flex items-center justify-center px-4">
       <div className="w-full max-w-sm">
-        <SignUp
+        <SignIn
           appearance={{
             variables: {
               colorPrimary: "#14b8a6",
@@ -20,7 +20,6 @@ export default function SignUpPage() {
               card: "border border-zinc-800 bg-zinc-900 shadow-none rounded-xl",
               footer: "bg-zinc-900 border-t border-zinc-800 rounded-b-xl",
               footerActionText: "text-zinc-500 text-xs",
-              footerPages: "!hidden",
               headerTitle: "text-lg font-semibold text-zinc-50",
               headerSubtitle: "text-sm text-zinc-400",
               formButtonPrimary: "bg-teal-600 hover:bg-teal-500 text-white text-sm font-medium transition-colors",
@@ -34,8 +33,8 @@ export default function SignUpPage() {
               socialButtonsBlockButtonText: "text-zinc-100 text-sm",
             },
           }}
-          afterSignUpUrl="/get-started"
-          signInUrl="/signin"
+          afterSignInUrl="/client-dashboard"
+          signUpUrl="/signup"
         />
       </div>
     </div>

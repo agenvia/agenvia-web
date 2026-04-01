@@ -452,7 +452,7 @@ export const footerColumns = [
       { href: "/product", label: "Product Overview" },
       { href: "/developers", label: "Developer Docs" },
       { href: "/live-demo", label: "Live Demo" },
-      { href: "/dashboard", label: "Admin Dashboard" },
+      { href: "/client-dashboard", label: "Dashboard" },
       { href: "/request-trace", label: "Request Trace" },
     ],
   },

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useUser, UserButton } from "@clerk/nextjs";
-import { Shield, Copy, Check } from "lucide-react";
+import { Shield, Copy, Check, ArrowRight, LayoutDashboard } from "lucide-react";
 import Link from "next/link";
 
 export default function GetStartedPage() {
@@ -68,6 +68,22 @@ export default function GetStartedPage() {
         <p className="text-zinc-400 text-sm mb-8">
           Your API key is ready. Use it to authenticate requests to the Agenvia gateway.
         </p>
+
+        <div className="flex items-center gap-3 mb-8">
+          <Link
+            href="/client-dashboard"
+            className="inline-flex items-center gap-2 rounded-full bg-teal-600 px-4 py-2 text-sm font-medium text-white hover:bg-teal-500 transition-colors"
+          >
+            <LayoutDashboard className="h-4 w-4" />
+            Go to Dashboard
+          </Link>
+          <Link
+            href="/"
+            className="inline-flex items-center gap-2 rounded-full border border-zinc-700 px-4 py-2 text-sm font-medium text-zinc-400 hover:bg-zinc-800 hover:text-zinc-100 transition-colors"
+          >
+            Back to Home
+          </Link>
+        </div>
 
         {error ? (
           <div className="rounded-xl border border-red-500/20 bg-red-500/10 p-6 text-sm text-red-400">
