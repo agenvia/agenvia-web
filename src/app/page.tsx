@@ -357,12 +357,6 @@ export default function Home() {
             >
               Get started free
             </Link>
-            <Link
-              href="/developers"
-              className="flex items-center gap-1.5 rounded-full border border-zinc-700 px-7 py-3 text-sm font-medium text-zinc-300 transition-all hover:border-zinc-500 hover:text-white hover:bg-white/[0.03]"
-            >
-              Read the docs <ChevronRight className="h-3.5 w-3.5" />
-            </Link>
           </motion.div>
         </div>
       </section>
