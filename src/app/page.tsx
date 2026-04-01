@@ -389,7 +389,7 @@ export default function Home() {
             {/* Header */}
             <div className="px-6 py-5 border-b border-zinc-800 bg-zinc-950/50">
               <p className="text-[10px] font-bold uppercase tracking-[0.28em] text-teal-500 mb-1">Start in 60 seconds</p>
-              <h2 className="text-lg font-semibold text-zinc-50">Secure your first agent today</h2>
+              <h2 className="text-lg font-semibold text-zinc-50">Secure your agent today</h2>
             </div>
 
             {/* CTA */}
