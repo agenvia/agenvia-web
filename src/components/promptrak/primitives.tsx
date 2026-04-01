@@ -70,6 +70,15 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
               See Live Flow
             </Link>
             <Link
+              href="/signup"
+              className={cn(
+                buttonVariants({ variant: "outline", size: "sm" }),
+                "hidden rounded-full border-teal-700 bg-transparent text-teal-400 hover:bg-teal-950 hover:text-teal-300 lg:inline-flex"
+              )}
+            >
+              Sign Up
+            </Link>
+            <Link
               href="/pricing"
               className={cn(
                 buttonVariants({ size: "sm" }),
