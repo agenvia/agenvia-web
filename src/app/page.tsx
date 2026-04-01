@@ -384,22 +384,54 @@ export default function Home() {
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="flex overflow-hidden rounded-2xl border border-zinc-800 bg-gradient-to-b from-zinc-900 to-zinc-950 shadow-[0_32px_64px_-16px_rgba(0,0,0,0.6)] min-h-[280px]"
+            className="rounded-2xl border border-zinc-800 border-t-teal-500/40 bg-zinc-900 overflow-hidden shadow-[0_32px_64px_-16px_rgba(0,0,0,0.6)]"
           >
-            {/* Vertical teal bar */}
-            <div className="w-1 shrink-0 bg-gradient-to-b from-teal-400 via-teal-500 to-teal-600" />
+            {/* Header */}
+            <div className="px-6 py-5 border-b border-zinc-800 bg-zinc-950/50">
+              <p className="text-[10px] font-bold uppercase tracking-[0.28em] text-teal-500 mb-1">Start in 60 seconds</p>
+              <h2 className="text-lg font-semibold text-zinc-50">Secure your first agent today</h2>
+              <p className="text-xs text-zinc-500 mt-1">Free forever. No credit card required.</p>
+            </div>
 
-            {/* Content */}
-            <div className="flex flex-1 flex-col justify-center px-10 py-12 gap-6">
-              <h2 className="font-heading text-3xl font-black leading-tight text-white">
-                Ready to protect<br />
-                <span className="text-teal-400">your agents?</span>
-              </h2>
+            {/* Steps */}
+            <div className="px-6 py-5 space-y-4">
+              {[
+                { step: "1", title: "Create free account",    desc: "Sign up and get your av_... API key instantly." },
+                { step: "2", title: "Install the SDK",        desc: "pip install agenvia — one command." },
+                { step: "3", title: "Wrap your LLM call",     desc: "One function call. Every prompt governed." },
+              ].map((item) => (
+                <div key={item.step} className="flex items-start gap-4">
+                  <div className="flex-shrink-0 w-7 h-7 rounded-full bg-teal-500/10 border border-teal-500/30 flex items-center justify-center text-xs font-bold text-teal-400">
+                    {item.step}
+                  </div>
+                  <div>
+                    <p className="text-sm font-semibold text-zinc-100">{item.title}</p>
+                    <p className="text-xs text-zinc-500 mt-0.5">{item.desc}</p>
+                  </div>
+                </div>
+              ))}
+
+              {/* Code preview */}
+              <div className="rounded-xl bg-zinc-950 border border-zinc-800 px-4 py-3 font-mono text-xs text-zinc-400 leading-6">
+                <span className="text-zinc-600">from</span> agenvia <span className="text-zinc-600">import</span> <span className="text-teal-300">Agenvia</span>{"\n"}
+                <span className="text-zinc-100">av</span> = <span className="text-teal-300">Agenvia</span>(<span className="text-amber-300">api_key</span>=<span className="text-emerald-400">&quot;av_...&quot;</span>){"\n"}
+                <span className="text-zinc-100">decision</span> = av.<span className="text-teal-300">evaluate</span>(prompt, role=<span className="text-emerald-400">&quot;nurse&quot;</span>)
+              </div>
+            </div>
+
+            {/* CTA */}
+            <div className="px-6 py-5 border-t border-zinc-800 bg-zinc-950/40 space-y-3">
               <Link
                 href="/signup"
-                className="inline-flex w-fit items-center gap-2 rounded-full bg-teal-600 hover:bg-teal-500 px-7 py-3 text-sm font-semibold text-white transition-colors shadow-[0_0_24px_rgba(20,184,166,0.2)]"
+                className="w-full flex items-center justify-center gap-2 rounded-lg bg-teal-600 hover:bg-teal-500 px-5 py-3 text-sm font-semibold text-white transition-colors shadow-[0_0_20px_rgba(20,184,166,0.15)]"
               >
                 Get started free
+              </Link>
+              <Link
+                href="/developers"
+                className="w-full flex items-center justify-center gap-2 rounded-lg border border-zinc-700 hover:border-zinc-600 hover:bg-zinc-800 px-5 py-2.5 text-sm font-medium text-zinc-400 hover:text-zinc-200 transition-colors"
+              >
+                Read the docs <ChevronRight className="h-3.5 w-3.5" />
               </Link>
             </div>
           </motion.div>
