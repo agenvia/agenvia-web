@@ -28,17 +28,11 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
     <div className="min-h-screen bg-zinc-950 text-foreground">
       <div className="fixed inset-x-0 top-0 z-40 border-b border-zinc-800 bg-zinc-950/90 backdrop-blur-xl">
         <div className="container flex h-16 items-center justify-between">
-          <Link href="/" className="flex items-center gap-1">
+          <Link href="/" className="flex items-center gap-2">
             <Icons.logo className="h-9 w-9" />
-            <div className="inline-flex items-baseline gap-2 font-heading leading-none">
-              <span className="text-[1.05rem] font-black uppercase tracking-[0.28em] text-white">
-                SCOPAI
-              </span>
-              <span className="translate-y-[-0.02em] text-sm font-medium text-zinc-500">|</span>
-              <span className="text-[1.08rem] font-bold tracking-[-0.04em] text-white">
-                Agenvia
-              </span>
-            </div>
+            <span className="font-heading text-[1.05rem] font-black uppercase tracking-[0.28em] text-white">
+              AGENVIA
+            </span>
           </Link>
           <nav className="hidden items-center gap-6 lg:flex">
             {navLinks.map((link) => {
