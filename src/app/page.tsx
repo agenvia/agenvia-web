@@ -393,32 +393,6 @@ export default function Home() {
               <p className="text-xs text-zinc-500 mt-1">Free forever. No credit card required.</p>
             </div>
 
-            {/* Steps */}
-            <div className="px-6 py-5 space-y-4">
-              {[
-                { step: "1", title: "Create free account",    desc: "Sign up and get your av_... API key instantly." },
-                { step: "2", title: "Install the SDK",        desc: "pip install agenvia — one command." },
-                { step: "3", title: "Wrap your LLM call",     desc: "One function call. Every prompt governed." },
-              ].map((item) => (
-                <div key={item.step} className="flex items-start gap-4">
-                  <div className="flex-shrink-0 w-7 h-7 rounded-full bg-teal-500/10 border border-teal-500/30 flex items-center justify-center text-xs font-bold text-teal-400">
-                    {item.step}
-                  </div>
-                  <div>
-                    <p className="text-sm font-semibold text-zinc-100">{item.title}</p>
-                    <p className="text-xs text-zinc-500 mt-0.5">{item.desc}</p>
-                  </div>
-                </div>
-              ))}
-
-              {/* Code preview */}
-              <div className="rounded-xl bg-zinc-950 border border-zinc-800 px-4 py-3 font-mono text-xs text-zinc-400 leading-6">
-                <span className="text-zinc-600">from</span> agenvia <span className="text-zinc-600">import</span> <span className="text-teal-300">Agenvia</span>{"\n"}
-                <span className="text-zinc-100">av</span> = <span className="text-teal-300">Agenvia</span>(<span className="text-amber-300">api_key</span>=<span className="text-emerald-400">&quot;av_...&quot;</span>){"\n"}
-                <span className="text-zinc-100">decision</span> = av.<span className="text-teal-300">evaluate</span>(prompt, role=<span className="text-emerald-400">&quot;nurse&quot;</span>)
-              </div>
-            </div>
-
             {/* CTA */}
             <div className="px-6 py-5 border-t border-zinc-800 bg-zinc-950/40 space-y-3">
               <Link
