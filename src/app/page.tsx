@@ -407,7 +407,7 @@ export default function Home() {
       {/* ── How it works ─────────────────────────────────────────────────── */}
       <section className="py-28">
         <div className="container">
-          <div className="mx-auto max-w-6xl">
+          <div className="mx-auto max-w-5xl">
             <motion.div {...rise} className="mb-14">
               <p className="text-[10px] font-bold uppercase tracking-[0.28em] text-teal-500 mb-4">How It Works</p>
               <h2 className="font-heading text-4xl font-black tracking-tight text-white md:text-5xl leading-[1.05]">
@@ -449,7 +449,7 @@ export default function Home() {
       <section className="relative py-28 overflow-hidden">
         <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(ellipse_60%_50%_at_50%_100%,rgba(20,184,166,0.04),transparent)]" />
         <div className="container">
-          <div className="mx-auto max-w-6xl">
+          <div className="mx-auto max-w-5xl">
             <motion.div {...rise} className="mb-14">
               <p className="text-[10px] font-bold uppercase tracking-[0.28em] text-teal-500 mb-4">What It Does</p>
               <h2 className="font-heading text-4xl font-black tracking-tight text-white md:text-5xl leading-[1.05]">
@@ -491,7 +491,7 @@ export default function Home() {
       {/* ── Integration ──────────────────────────────────────────────────── */}
       <section className="py-28">
         <div className="container">
-          <div className="mx-auto max-w-6xl grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+          <div className="mx-auto max-w-5xl grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
 
             {/* Left */}
             <motion.div {...rise}>
@@ -563,7 +563,7 @@ export default function Home() {
       {/* ── Compliance ───────────────────────────────────────────────────── */}
       <section className="py-28">
         <div className="container">
-          <div className="mx-auto max-w-6xl">
+          <div className="mx-auto max-w-5xl">
             <motion.div {...rise} className="mb-14">
               <p className="text-[10px] font-bold uppercase tracking-[0.28em] text-teal-500 mb-4">Compliance</p>
               <h2 className="font-heading text-4xl font-black tracking-tight text-white leading-[1.05]">
