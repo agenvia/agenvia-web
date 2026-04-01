@@ -27,7 +27,7 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
   return (
     <div className="min-h-screen bg-zinc-950 text-foreground">
       <div className="fixed inset-x-0 top-0 z-40 border-b border-zinc-800 bg-zinc-950/90 backdrop-blur-xl">
-        <div className="container flex h-16 items-center justify-between">
+        <div className="container flex h-11 items-center justify-between">
           <Link href="/" className="flex items-center gap-1">
             <Icons.logo className="h-9 w-9" />
             <span className="font-heading text-[1.05rem] font-black uppercase tracking-[0.28em] text-teal-400">
@@ -69,7 +69,7 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
           </div>
         </div>
       </div>
-      <div className="pt-16">{children}</div>
+      <div className="pt-11">{children}</div>
       <footer className="border-t border-zinc-800 bg-zinc-900">
         <div className="container grid gap-12 py-16 lg:grid-cols-[1.2fr_repeat(3,1fr)]">
           <div className="space-y-4">
