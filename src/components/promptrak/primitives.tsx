@@ -53,31 +53,16 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
               );
             })}
           </nav>
-          <div className="flex items-center gap-3">
-            <Link
-              href="/live-demo"
-              className={cn(
-                buttonVariants({ variant: "outline", size: "sm" }),
-                "hidden rounded-full border-zinc-700 bg-zinc-800 text-zinc-300 hover:bg-zinc-700 hover:text-zinc-100 lg:inline-flex"
-              )}
-            >
-              See Live Flow
-            </Link>
+          <div className="flex items-center gap-2">
             <Link
               href="/signup"
-              className={cn(
-                buttonVariants({ variant: "outline", size: "sm" }),
-                "hidden rounded-full border-teal-700 bg-transparent text-teal-400 hover:bg-teal-950 hover:text-teal-300 lg:inline-flex"
-              )}
+              className="hidden rounded-full border border-teal-700 bg-transparent px-3 py-1 text-xs font-medium text-teal-400 hover:bg-teal-950 hover:text-teal-300 transition-colors lg:inline-flex"
             >
               Sign Up
             </Link>
             <Link
               href="/pricing"
-              className={cn(
-                buttonVariants({ size: "sm" }),
-                "rounded-full bg-teal-600 px-5 text-white hover:bg-teal-500"
-              )}
+              className="rounded-full bg-teal-600 px-3 py-1 text-xs font-medium text-white hover:bg-teal-500 transition-colors"
             >
               Book Demo
             </Link>
