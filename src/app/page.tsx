@@ -81,7 +81,7 @@ function RoleSandboxEvaluator() {
     >
       {/* Header */}
       <div className="px-5 py-4 border-b border-zinc-800 bg-zinc-950/50">
-        <p className="text-[10px] font-bold uppercase tracking-[0.28em] text-teal-500 mb-0.5">Live sandbox</p>
+        <p className="text-[10px] font-bold uppercase tracking-[0.28em] text-teal-500 mb-0.5">Live demo</p>
         <h2 className="text-base font-semibold text-zinc-50">Role-aware access control</h2>
         <p className="text-xs text-zinc-500 mt-0.5">Same prompt · different roles · different decisions.</p>
       </div>
@@ -354,16 +354,16 @@ export default function Home() {
               className="mt-8 flex flex-wrap gap-3"
             >
               <Link
-                href="/live-demo"
+                href="/signup"
                 className="rounded-full bg-teal-600 px-6 py-3 text-sm font-semibold text-white shadow-[0_0_0_1px_rgba(20,184,166,0.4)] transition-all hover:bg-teal-500 hover:shadow-[0_0_20px_rgba(20,184,166,0.25)]"
               >
-                See it live
+                Get started free
               </Link>
               <Link
-                href="/console"
+                href="/developers"
                 className="flex items-center gap-1.5 rounded-full border border-zinc-700 px-6 py-3 text-sm font-medium text-zinc-300 transition-all hover:border-zinc-500 hover:text-white hover:bg-white/[0.03]"
               >
-                Open dashboard <ChevronRight className="h-3.5 w-3.5" />
+                Read the docs <ChevronRight className="h-3.5 w-3.5" />
               </Link>
             </motion.div>
           </div>
