@@ -334,6 +334,7 @@ export default function DevelopersPage() {
         {/* Main content */}
         <main className="flex-1 min-w-0 px-6 py-10 lg:px-12 max-w-3xl">
 
+
           {/* ── GET STARTED ── */}
           {(activeSection === "get-started" || activeSection === "langchain" || activeSection === "langgraph" || activeSection === "autogen" || activeSection === "crewai" || activeSection === "openai-agents") && activeSection === "get-started" && (
             <div>
@@ -653,6 +654,98 @@ else:  # block
           )}
 
         </main>
+
+        {/* Right TOC */}
+        <aside className="hidden xl:flex flex-col w-52 shrink-0 sticky top-16 h-[calc(100vh-4rem)] overflow-y-auto py-10 px-4">
+          {activeSection === "get-started" && (
+            <div>
+              <div className="mb-3 text-[10px] font-bold uppercase tracking-widest text-zinc-500">
+                On this page
+              </div>
+              <div className="space-y-1">
+                {[
+                  { label: "Get your API key",       step: 1 },
+                  { label: "Install the SDK",         step: 2 },
+                  { label: "First governed call",     step: 3 },
+                  { label: "Agent examples",          step: 4 },
+                  { label: "Response reference",      step: 5 },
+                  { label: "What's next",             step: 0 },
+                ].map((item) => (
+                  <div
+                    key={item.label}
+                    className="flex items-center gap-2 py-1 text-xs text-zinc-500 hover:text-zinc-300 transition-colors cursor-default"
+                  >
+                    {item.step > 0 && (
+                      <span className="flex-shrink-0 w-4 h-4 rounded-full bg-zinc-800 border border-zinc-700 flex items-center justify-center text-[9px] font-bold text-zinc-500">
+                        {item.step}
+                      </span>
+                    )}
+                    <span className={item.step === 0 ? "pl-6" : ""}>{item.label}</span>
+                  </div>
+                ))}
+              </div>
+
+              <div className="mt-8 pt-6 border-t border-zinc-800 space-y-3">
+                <div className="text-[10px] font-bold uppercase tracking-widest text-zinc-500 mb-2">
+                  Resources
+                </div>
+                <Link href="/signup" className="block text-xs text-teal-400 hover:text-teal-300 transition-colors">
+                  Get API key →
+                </Link>
+                <a href="https://github.com/agenvia" target="_blank" rel="noreferrer" className="block text-xs text-zinc-500 hover:text-zinc-300 transition-colors">
+                  GitHub →
+                </a>
+                <Link href="/live-demo" className="block text-xs text-zinc-500 hover:text-zinc-300 transition-colors">
+                  Live demo →
+                </Link>
+              </div>
+            </div>
+          )}
+
+          {activeSection === "core-concepts" && (
+            <div>
+              <div className="mb-3 text-[10px] font-bold uppercase tracking-widest text-zinc-500">On this page</div>
+              <div className="space-y-1">
+                {["The 3-Tier Model", "Actors & Roles", "Policy Trace", "Audit Chain"].map((item) => (
+                  <div key={item} className="py-1 text-xs text-zinc-500 hover:text-zinc-300 transition-colors cursor-default">{item}</div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {activeSection === "authentication" && (
+            <div>
+              <div className="mb-3 text-[10px] font-bold uppercase tracking-widest text-zinc-500">On this page</div>
+              <div className="space-y-1">
+                {["API key header", "Get a key"].map((item) => (
+                  <div key={item} className="py-1 text-xs text-zinc-500 hover:text-zinc-300 transition-colors cursor-default">{item}</div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {activeSection === "prompt-gateway" && (
+            <div>
+              <div className="mb-3 text-[10px] font-bold uppercase tracking-widest text-zinc-500">On this page</div>
+              <div className="space-y-1">
+                {["Endpoint", "Request body", "Response"].map((item) => (
+                  <div key={item} className="py-1 text-xs text-zinc-500 hover:text-zinc-300 transition-colors cursor-default">{item}</div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {["langchain","langgraph","autogen","crewai","openai-agents"].includes(activeSection) && (
+            <div>
+              <div className="mb-3 text-[10px] font-bold uppercase tracking-widest text-zinc-500">On this page</div>
+              <div className="space-y-1">
+                {["Installation", "GovernedAgent", "Usage"].map((item) => (
+                  <div key={item} className="py-1 text-xs text-zinc-500 hover:text-zinc-300 transition-colors cursor-default">{item}</div>
+                ))}
+              </div>
+            </div>
+          )}
+        </aside>
       </div>
     </SiteChrome>
   );
