@@ -122,33 +122,33 @@ export const benchmarkMetrics = [
 
 export const featureBlocks = [
   {
-    title: "Transformer-powered detection",
-    body: "SetFit intent classifier combined with FL-promoted regex patterns and multilingual injection signatures catches sensitive data and attack attempts in 5+ languages.",
+    title: "Intent classification",
+    body: "Understands what every prompt is trying to do before your LLM sees it. Catches attacks disguised as legitimate requests.",
     icon: Brain,
   },
   {
-    title: "3D access control",
-    body: "Universal Role Engine enforces Role × Domain × Action-Tier simultaneously. A nurse can view medical records but cannot export them. A legal analyst cannot access finance data.",
+    title: "Formal reasoning",
+    body: "Evaluates every decision against your policy rules. Produces a clear, human-readable reason for every block, allow, or redact.",
     icon: Key,
   },
   {
-    title: "Agent and tool governance",
-    body: "Every agent tool call is authorized against action-tier ceilings, resource class policies, and approval workflows before execution — with full output sanitization on the way back.",
+    title: "Consequence modeling",
+    body: "Assesses the potential impact of each action before it executes. High-risk actions are escalated automatically — not silently allowed.",
     icon: Workflow,
   },
   {
-    title: "Sanitization and minimization",
-    body: "Named entities are replaced with typed placeholders, unnecessary strategic context is stripped, and a clean minimum-viable prompt is delivered to the model.",
+    title: "Session escalation",
+    body: "Watches behavior across turns, not just individual prompts. An agent that probes gradually gets caught — not just warned after the damage is done.",
     icon: Sparkles,
   },
   {
-    title: "Output leakage guard",
-    body: "Model responses are inspected for re-materialization of hidden entities, restricted topics, and forbidden context before any content reaches users or downstream systems.",
+    title: "Cryptographic audit trail",
+    body: "Every enforcement decision is permanently recorded and tamper-evident. Export it for compliance. Verify it any time.",
     icon: ShieldCheck,
   },
   {
-    title: "Differential privacy federated learning",
-    body: "Clients submit HMAC-signed model updates. The server aggregates with calibrated Gaussian DP noise (ε=1, δ=1e-5) — no raw prompts leave any tenant.",
+    title: "Federated learning",
+    body: "Your deployment benefits from attack patterns seen across the network. Shared defenses. Your data never leaves your environment.",
     icon: Network,
   },
 ];
