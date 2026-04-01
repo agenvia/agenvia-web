@@ -203,38 +203,38 @@ const FEATURES = [
   {
     icon: Brain,
     title: "Intent classification",
-    body: "SetFit model classifies prompt intent across 8 categories. Calibrated thresholds per class. OOD detection for novel attacks.",
-    stat: "F1 0.97 on medical · 0.97 on exfiltration",
+    body: "Every prompt is evaluated for intent before reaching your model. Malicious requests are stopped at the gate.",
+    stat: "",
   },
   {
     icon: Scale,
     title: "Formal reasoning",
-    body: "Declarative rules evaluated against JWT-anchored facts. Every decision produces a proof trace — who, what, why, which rule.",
-    stat: "GDPR Article 22 compliant by design",
+    body: "Decisions are made against your defined policies, with a clear reason attached to every outcome.",
+    stat: "",
   },
   {
     icon: Zap,
     title: "Consequence modeling",
-    body: "Blast radius, reversibility, and chain risk evaluated before action. High-consequence decisions escalate automatically.",
-    stat: "Tenant-chain attacks caught before execution",
+    body: "High-impact actions are assessed before they run. Nothing escalates silently.",
+    stat: "",
   },
   {
     icon: TrendingUp,
     title: "Session escalation",
-    body: "Detects probing patterns across turns. An agent that asks three salary questions then requests credentials gets blocked — not just warned.",
-    stat: "Multi-turn attacks detected before turn 5",
+    body: "Threat patterns that develop across multiple turns are caught — not just single-prompt attacks.",
+    stat: "",
   },
   {
     icon: Link2,
     title: "Cryptographic audit trail",
-    body: "Every enforcement decision writes to a hash-linked chain. Tamper-evident, compliance-ready, exportable. No gaps in coverage.",
-    stat: "100% of decisions · chain intact under load",
+    body: "Every enforcement decision is logged, tamper-evident, and exportable for compliance review.",
+    stat: "",
   },
   {
     icon: Network,
     title: "Federated learning",
-    body: "Clients submit attack patterns. Quorum promotes shared defenses. Byzantine participants are detected by deviation score — not self-report.",
-    stat: "Server-computed scores · isolation at 0.85",
+    body: "Your deployment gets stronger from signals across the network. No raw data ever leaves your environment.",
+    stat: "",
   },
 ];
 
@@ -478,9 +478,11 @@ export default function Home() {
                     <h3 className="text-sm font-bold text-white leading-snug">{f.title}</h3>
                     <p className="mt-2 text-sm text-zinc-500 leading-6">{f.body}</p>
                   </div>
+                  {f.stat ? (
                   <div className="mt-auto pt-3 border-t border-zinc-800/60">
                     <p className="text-[11px] font-semibold text-teal-500/80">{f.stat}</p>
                   </div>
+                  ) : null}
                 </motion.div>
               ))}
             </div>
