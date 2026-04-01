@@ -55,9 +55,7 @@ export const navLinks = [
   { href: "/live-demo", label: "Live Demo" },
   { href: "/console", label: "Dashboard" },
   { href: "/fl-intelligence", label: "FL Intelligence" },
-  { href: "/policy-studio", label: "Policy Studio" },
   { href: "/pricing", label: "Pricing" },
-  { href: "/trust", label: "Trust" },
 ];
 
 export const trustBar = [
