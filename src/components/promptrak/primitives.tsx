@@ -30,7 +30,7 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
         <div className="container flex h-16 items-center justify-between">
           <Link href="/" className="flex items-center gap-2">
             <Icons.logo className="h-9 w-9" />
-            <span className="font-heading text-[1.05rem] font-black uppercase tracking-[0.28em] text-white">
+            <span className="font-heading text-[1.05rem] font-black uppercase tracking-[0.28em] text-teal-400">
               AGENVIA
             </span>
           </Link>
