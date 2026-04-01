@@ -342,7 +342,7 @@ export default function Home() {
           >
             Agenvia sits between your application and your LLM. Every
             prompt is classified, every policy is enforced, every decision
-            is permanently recorded — in 232ms.
+            is permanently recorded.
           </motion.p>
 
           <motion.div
