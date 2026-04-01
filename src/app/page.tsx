@@ -363,7 +363,7 @@ export default function Home() {
 
       {/* ── Pipeline animation ───────────────────────────────────────────── */}
       <section className="container pb-28">
-        <div className="mx-auto max-w-6xl grid lg:grid-cols-[280px_1fr] gap-10 lg:gap-14 items-center">
+        <div className="mx-auto max-w-5xl grid lg:grid-cols-[260px_1fr] gap-10 lg:gap-12 items-center">
 
           {/* Left: heading */}
           <motion.div {...rise} className="lg:self-center">
