@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useUser, UserButton } from "@clerk/nextjs";
 import { Shield, Copy, Check } from "lucide-react";
+import Link from "next/link";
 
 export default function GetStartedPage() {
   const { user, isLoaded } = useUser();
@@ -44,11 +45,18 @@ export default function GetStartedPage() {
   return (
     <div className="min-h-screen bg-zinc-950 text-zinc-100">
       <header className="border-b border-zinc-800 px-6 py-3 flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-teal-500/10 border border-teal-500/20">
-            <Shield className="h-4 w-4 text-teal-400" />
-          </div>
-          <span className="text-sm font-semibold">Agenvia</span>
+        <div className="flex items-center gap-6">
+          <Link href="/" className="flex items-center gap-2">
+            <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-teal-500/10 border border-teal-500/20">
+              <Shield className="h-4 w-4 text-teal-400" />
+            </div>
+            <span className="text-sm font-semibold">Agenvia</span>
+          </Link>
+          <nav className="hidden sm:flex items-center gap-4">
+            <Link href="/" className="text-xs text-zinc-400 hover:text-zinc-100 transition-colors">Home</Link>
+            <Link href="/developers" className="text-xs text-zinc-400 hover:text-zinc-100 transition-colors">Docs</Link>
+            <Link href="/live-demo" className="text-xs text-zinc-400 hover:text-zinc-100 transition-colors">Live Demo</Link>
+          </nav>
         </div>
         <UserButton afterSignOutUrl="/" />
       </header>
