@@ -123,32 +123,32 @@ export const benchmarkMetrics = [
 export const featureBlocks = [
   {
     title: "Intent classification",
-    body: "Understands what every prompt is trying to do before your LLM sees it. Catches attacks disguised as legitimate requests.",
+    body: "Every prompt is evaluated for intent before reaching your model. Malicious requests are stopped at the gate.",
     icon: Brain,
   },
   {
     title: "Formal reasoning",
-    body: "Evaluates every decision against your policy rules. Produces a clear, human-readable reason for every block, allow, or redact.",
+    body: "Decisions are made against your defined policies, with a clear reason attached to every outcome.",
     icon: Key,
   },
   {
     title: "Consequence modeling",
-    body: "Assesses the potential impact of each action before it executes. High-risk actions are escalated automatically — not silently allowed.",
+    body: "High-impact actions are assessed before they run. Nothing escalates silently.",
     icon: Workflow,
   },
   {
     title: "Session escalation",
-    body: "Watches behavior across turns, not just individual prompts. An agent that probes gradually gets caught — not just warned after the damage is done.",
+    body: "Threat patterns that develop across multiple turns are caught — not just single-prompt attacks.",
     icon: Sparkles,
   },
   {
     title: "Cryptographic audit trail",
-    body: "Every enforcement decision is permanently recorded and tamper-evident. Export it for compliance. Verify it any time.",
+    body: "Every enforcement decision is logged, tamper-evident, and exportable for compliance review.",
     icon: ShieldCheck,
   },
   {
     title: "Federated learning",
-    body: "Your deployment benefits from attack patterns seen across the network. Shared defenses. Your data never leaves your environment.",
+    body: "Your deployment gets stronger from signals across the network. No raw data ever leaves your environment.",
     icon: Network,
   },
 ];
