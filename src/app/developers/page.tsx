@@ -657,24 +657,20 @@ else:  # block
 
         {/* Right TOC */}
         <aside className="hidden xl:flex flex-col w-52 shrink-0 sticky top-16 h-[calc(100vh-4rem)] overflow-y-auto py-10 px-4">
+          {/* Per-section TOC items */}
           {activeSection === "get-started" && (
-            <div>
-              <div className="mb-3 text-[10px] font-bold uppercase tracking-widest text-zinc-500">
-                On this page
-              </div>
-              <div className="space-y-1">
+            <>
+              <div className="mb-3 text-[10px] font-bold uppercase tracking-widest text-zinc-500">On this page</div>
+              <div className="space-y-1 mb-8">
                 {[
-                  { label: "Get your API key",       step: 1 },
-                  { label: "Install the SDK",         step: 2 },
-                  { label: "First governed call",     step: 3 },
-                  { label: "Agent examples",          step: 4 },
-                  { label: "Response reference",      step: 5 },
-                  { label: "What's next",             step: 0 },
+                  { label: "Get your API key",   step: 1 },
+                  { label: "Install the SDK",     step: 2 },
+                  { label: "First governed call", step: 3 },
+                  { label: "Agent examples",      step: 4 },
+                  { label: "Response reference",  step: 5 },
+                  { label: "What's next",         step: 0 },
                 ].map((item) => (
-                  <div
-                    key={item.label}
-                    className="flex items-center gap-2 py-1 text-xs text-zinc-500 hover:text-zinc-300 transition-colors cursor-default"
-                  >
+                  <div key={item.label} className="flex items-center gap-2 py-1 text-xs text-zinc-500 hover:text-zinc-300 transition-colors cursor-default">
                     {item.step > 0 && (
                       <span className="flex-shrink-0 w-4 h-4 rounded-full bg-zinc-800 border border-zinc-700 flex items-center justify-center text-[9px] font-bold text-zinc-500">
                         {item.step}
@@ -684,67 +680,78 @@ else:  # block
                   </div>
                 ))}
               </div>
-
-              <div className="mt-8 pt-6 border-t border-zinc-800 space-y-3">
-                <div className="text-[10px] font-bold uppercase tracking-widest text-zinc-500 mb-2">
-                  Resources
-                </div>
-                <Link href="/signup" className="block text-xs text-teal-400 hover:text-teal-300 transition-colors">
-                  Get API key →
-                </Link>
-                <a href="https://github.com/agenvia" target="_blank" rel="noreferrer" className="block text-xs text-zinc-500 hover:text-zinc-300 transition-colors">
-                  GitHub →
-                </a>
-                <Link href="/live-demo" className="block text-xs text-zinc-500 hover:text-zinc-300 transition-colors">
-                  Live demo →
-                </Link>
-              </div>
-            </div>
+            </>
           )}
 
           {activeSection === "core-concepts" && (
-            <div>
+            <>
               <div className="mb-3 text-[10px] font-bold uppercase tracking-widest text-zinc-500">On this page</div>
-              <div className="space-y-1">
+              <div className="space-y-1 mb-8">
                 {["The 3-Tier Model", "Actors & Roles", "Policy Trace", "Audit Chain"].map((item) => (
                   <div key={item} className="py-1 text-xs text-zinc-500 hover:text-zinc-300 transition-colors cursor-default">{item}</div>
                 ))}
               </div>
-            </div>
+            </>
           )}
 
           {activeSection === "authentication" && (
-            <div>
+            <>
               <div className="mb-3 text-[10px] font-bold uppercase tracking-widest text-zinc-500">On this page</div>
-              <div className="space-y-1">
+              <div className="space-y-1 mb-8">
                 {["API key header", "Get a key"].map((item) => (
                   <div key={item} className="py-1 text-xs text-zinc-500 hover:text-zinc-300 transition-colors cursor-default">{item}</div>
                 ))}
               </div>
-            </div>
+            </>
           )}
 
           {activeSection === "prompt-gateway" && (
-            <div>
+            <>
               <div className="mb-3 text-[10px] font-bold uppercase tracking-widest text-zinc-500">On this page</div>
-              <div className="space-y-1">
+              <div className="space-y-1 mb-8">
                 {["Endpoint", "Request body", "Response"].map((item) => (
                   <div key={item} className="py-1 text-xs text-zinc-500 hover:text-zinc-300 transition-colors cursor-default">{item}</div>
                 ))}
               </div>
-            </div>
+            </>
           )}
 
           {["langchain","langgraph","autogen","crewai","openai-agents"].includes(activeSection) && (
-            <div>
+            <>
               <div className="mb-3 text-[10px] font-bold uppercase tracking-widest text-zinc-500">On this page</div>
-              <div className="space-y-1">
+              <div className="space-y-1 mb-8">
                 {["Installation", "GovernedAgent", "Usage"].map((item) => (
                   <div key={item} className="py-1 text-xs text-zinc-500 hover:text-zinc-300 transition-colors cursor-default">{item}</div>
                 ))}
               </div>
-            </div>
+            </>
           )}
+
+          {["pii-vault","tool-auth","api-endpoints","response-schema","policy-trace","audit-chain"].includes(activeSection) && (
+            <>
+              <div className="mb-3 text-[10px] font-bold uppercase tracking-widest text-zinc-500">Coming soon</div>
+              <div className="mb-8 rounded-lg border border-zinc-800 bg-zinc-900 px-3 py-3">
+                <p className="text-xs text-zinc-500 leading-5">This section is under active development.</p>
+                <Link href="/signup" className="mt-2 block text-xs text-teal-400 hover:text-teal-300 transition-colors">
+                  Sign up to be notified →
+                </Link>
+              </div>
+            </>
+          )}
+
+          {/* Always-visible Resources */}
+          <div className="mt-auto pt-6 border-t border-zinc-800 space-y-2">
+            <div className="mb-2 text-[10px] font-bold uppercase tracking-widest text-zinc-500">Resources</div>
+            <Link href="/signup" className="block text-xs text-teal-400 hover:text-teal-300 transition-colors">
+              Get API key →
+            </Link>
+            <a href="https://github.com/agenvia" target="_blank" rel="noreferrer" className="block text-xs text-zinc-500 hover:text-zinc-300 transition-colors">
+              GitHub →
+            </a>
+            <Link href="/live-demo" className="block text-xs text-zinc-500 hover:text-zinc-300 transition-colors">
+              Live demo →
+            </Link>
+          </div>
         </aside>
       </div>
     </SiteChrome>
