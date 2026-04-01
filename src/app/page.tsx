@@ -182,6 +182,17 @@ function RoleSandboxEvaluator() {
           )}
         </AnimatePresence>
       </div>
+
+      {/* Footer CTA */}
+      <div className="px-5 py-4 border-t border-zinc-800 bg-zinc-950/60 flex items-center justify-between gap-3">
+        <p className="text-xs text-zinc-500">Ready to protect your agents?</p>
+        <Link
+          href="/signup"
+          className="flex-shrink-0 rounded-lg bg-teal-600 hover:bg-teal-500 px-4 py-1.5 text-xs font-semibold text-white transition-colors"
+        >
+          Get started free →
+        </Link>
+      </div>
     </motion.div>
   );
 }
