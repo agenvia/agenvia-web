@@ -384,17 +384,24 @@ export default function Home() {
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="rounded-2xl border border-zinc-800 border-t-teal-500/40 bg-zinc-900 p-10 flex flex-col items-center justify-center text-center gap-6 shadow-[0_32px_64px_-16px_rgba(0,0,0,0.6)] min-h-[320px]"
+            className="flex overflow-hidden rounded-2xl border border-zinc-800 bg-gradient-to-b from-zinc-900 to-zinc-950 shadow-[0_32px_64px_-16px_rgba(0,0,0,0.6)] min-h-[280px]"
           >
-            <p className="text-2xl font-semibold text-zinc-100 leading-snug max-w-xs">
-              Ready to protect<br />your agents?
-            </p>
-            <Link
-              href="/signup"
-              className="rounded-full bg-teal-600 hover:bg-teal-500 px-8 py-3 text-sm font-semibold text-white transition-colors shadow-[0_0_24px_rgba(20,184,166,0.2)]"
-            >
-              Get started free
-            </Link>
+            {/* Vertical teal bar */}
+            <div className="w-1 shrink-0 bg-gradient-to-b from-teal-400 via-teal-500 to-teal-600" />
+
+            {/* Content */}
+            <div className="flex flex-1 flex-col justify-center px-10 py-12 gap-6">
+              <h2 className="font-heading text-3xl font-black leading-tight text-white">
+                Ready to protect<br />
+                <span className="text-teal-400">your agents?</span>
+              </h2>
+              <Link
+                href="/signup"
+                className="inline-flex w-fit items-center gap-2 rounded-full bg-teal-600 hover:bg-teal-500 px-7 py-3 text-sm font-semibold text-white transition-colors shadow-[0_0_24px_rgba(20,184,166,0.2)]"
+              >
+                Get started free
+              </Link>
+            </div>
           </motion.div>
         </div>
       </section>
