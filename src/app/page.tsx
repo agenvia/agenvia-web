@@ -390,7 +390,6 @@ export default function Home() {
             <div className="px-6 py-5 border-b border-zinc-800 bg-zinc-950/50">
               <p className="text-[10px] font-bold uppercase tracking-[0.28em] text-teal-500 mb-1">Start in 60 seconds</p>
               <h2 className="text-lg font-semibold text-zinc-50">Secure your first agent today</h2>
-              <p className="text-xs text-zinc-500 mt-1">Free forever. No credit card required.</p>
             </div>
 
             {/* CTA */}
