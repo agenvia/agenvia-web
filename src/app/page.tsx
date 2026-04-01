@@ -314,16 +314,6 @@ export default function Home() {
         <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(ellipse_70%_55%_at_50%_-5%,rgba(20,184,166,0.08),transparent)]" />
 
         <div className="mx-auto max-w-3xl text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-            className="inline-flex items-center gap-2 rounded-full border border-zinc-700/70 bg-zinc-900/80 px-3.5 py-1.5 mb-8 shadow-[0_0_0_1px_rgba(255,255,255,0.03)]"
-          >
-            <span className="h-1.5 w-1.5 rounded-full bg-teal-400" />
-            <span className="text-xs font-medium text-zinc-300">Agent security middleware</span>
-          </motion.div>
-
           <motion.h1
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
