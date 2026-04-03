@@ -3,7 +3,6 @@
 import { useState, FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import { useConsoleAuth } from "@/lib/console-auth";
-import { Shield } from "lucide-react";
 
 export default function LoginPage() {
   const { login, loading } = useConsoleAuth();
@@ -24,7 +23,7 @@ export default function LoginPage() {
           const claims = JSON.parse(atob(stored.split(".")[1])) as Record<string, unknown>;
           const raw = (claims.platform_role ?? claims.role ?? "") as string;
           if (raw === "coordinator" || raw === "superadmin") dest = "/super-admin";
-          else if (raw === "admin" || raw === "org_admin") dest = "/client-dashboard";
+          else if (raw === "admin" || raw === "org_admin") dest = "/console";
         } catch { /* fall through to default */ }
       }
       router.push(dest);
@@ -38,12 +37,11 @@ export default function LoginPage() {
       <div className="w-full max-w-sm">
 
         {/* Logo */}
-        <div className="flex items-center gap-2.5 mb-8">
-          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-teal-500/10 border border-teal-500/20">
-            <Shield className="h-5 w-5 text-teal-400" />
-          </div>
+        <div className="flex items-center gap-1 mb-8">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/logo.svg" alt="Agenvia" className="h-9 w-9 rounded-lg" />
           <div>
-            <div className="text-sm font-semibold text-zinc-100">Agenvia</div>
+            <div className="text-base font-bold text-teal-400 tracking-tight uppercase">AGENVIA</div>
             <div className="text-xs text-zinc-500">Security Console</div>
           </div>
         </div>
@@ -86,9 +84,6 @@ export default function LoginPage() {
           </form>
         </div>
 
-        <p className="mt-4 text-center text-xs text-zinc-600">
-          Dev keys — Super Admin: <span className="font-mono text-zinc-500">superadmin-key</span> · Org Admin: <span className="font-mono text-zinc-500">admin-org-a</span>
-        </p>
       </div>
     </div>
   );

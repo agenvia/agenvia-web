@@ -25,7 +25,6 @@ function AdminUsersView() {
   const [users, setUsers] = useState<UserRecord[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [lastRefresh, setLastRefresh] = useState(new Date());
 
   async function load() {
     setLoading(true);
@@ -33,7 +32,6 @@ function AdminUsersView() {
     try {
       const data = await authFetch<{ users: UserRecord[] }>("/admin/users");
       setUsers(data.users ?? []);
-      setLastRefresh(new Date());
     } catch (e) {
       setError((e as Error).message);
     } finally {
@@ -56,7 +54,6 @@ function AdminUsersView() {
         <div className="flex items-center gap-2">
           <Users className="h-4 w-4 text-zinc-500" />
           <h1 className="text-base font-semibold text-zinc-100">All Users</h1>
-          <span className="text-xs text-zinc-500">· Last updated {lastRefresh.toLocaleTimeString()}</span>
         </div>
         <button
           onClick={load}
@@ -152,15 +149,31 @@ function AdminUsersView() {
 // ── Org admin view: register + manage their own users ─────────────────────────
 function OrgUsersView() {
   const { authFetch, tenantId: ctxTenantId } = useConsoleAuth();
+  const tenantId = ctxTenantId ?? "";
   const [userId, setUserId]           = useState("");
   const [displayName, setDisplayName] = useState("");
-  const [tenantId, setTenantId]       = useState(ctxTenantId ?? "org_a");
   const [role, setRole]               = useState("end_user");
   const [clearances, setClearances]   = useState("");
-  const [domains, setDomains]         = useState<DomainEntry[]>([{ domain: "medical", level: "full" }]);
+  const [domains, setDomains]         = useState<DomainEntry[]>([{ domain: "legal", level: "full" }]);
   const [loading, setLoading]         = useState(false);
   const [success, setSuccess]         = useState(false);
   const [error, setError]             = useState<string | null>(null);
+  const [users, setUsers]             = useState<UserRecord[]>([]);
+  const [listLoading, setListLoading] = useState(true);
+
+  async function loadUsers() {
+    setListLoading(true);
+    try {
+      const data = await authFetch<{ users: UserRecord[] }>("/admin/users");
+      setUsers((data.users ?? []).filter((u) => u.tenant_id === tenantId));
+    } catch {
+      // non-fatal — list just won't show
+    } finally {
+      setListLoading(false);
+    }
+  }
+
+  useEffect(() => { loadUsers(); }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   function addDomain() { setDomains((d) => [...d, { domain: "medical", level: "full" }]); }
   function removeDomain(i: number) { setDomains((d) => d.filter((_, idx) => idx !== i)); }
@@ -190,7 +203,8 @@ function OrgUsersView() {
       setUserId("");
       setDisplayName("");
       setClearances("");
-      setDomains([{ domain: "medical", level: "full" }]);
+      setDomains([{ domain: "legal", level: "full" }]);
+      loadUsers();
     } catch (e) {
       const msg = (e as Error).message;
       if (msg.includes("409") || msg.toLowerCase().includes("already")) {
@@ -213,7 +227,7 @@ function OrgUsersView() {
         <h1 className="text-base font-semibold text-zinc-100">Users</h1>
       </header>
 
-      <main className="p-6 max-w-screen-xl mx-auto">
+      <main className="p-6 max-w-screen-xl mx-auto space-y-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <div className="rounded-lg border border-zinc-800 bg-zinc-900 overflow-hidden">
             <div className="px-5 py-3 border-b border-zinc-800">
@@ -223,12 +237,14 @@ function OrgUsersView() {
             <form onSubmit={handleSubmit} className="p-5 space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className={labelCls}>Tenant ID</label>
-                  <input className={inputCls} value={tenantId} onChange={(e) => setTenantId(e.target.value)} required />
+                  <label className={labelCls}>Tenant</label>
+                  <div className="w-full rounded-md border border-zinc-700 bg-zinc-800/50 px-3 py-2 text-sm text-zinc-400 font-mono select-none">
+                    {tenantId}
+                  </div>
                 </div>
                 <div>
                   <label className={labelCls}>User ID *</label>
-                  <input className={inputCls} value={userId} onChange={(e) => setUserId(e.target.value)} placeholder="nurse_jane" required />
+                  <input className={inputCls} value={userId} onChange={(e) => setUserId(e.target.value)} placeholder="jane_smith" required />
                 </div>
               </div>
               <div>
@@ -341,6 +357,68 @@ function OrgUsersView() {
               </table>
             </div>
           </div>
+        </div>
+
+        {/* Registered users list */}
+        <div className="rounded-lg border border-zinc-800 bg-zinc-900 overflow-hidden">
+          <div className="px-5 py-3 border-b border-zinc-800 flex items-center justify-between">
+            <h3 className="text-sm font-medium text-zinc-100 flex items-center gap-2">
+              <Users className="h-4 w-4 text-zinc-500" /> Registered Users
+              <span className="text-xs text-zinc-500">· {tenantId}</span>
+            </h3>
+            <button onClick={loadUsers} disabled={listLoading} className="flex items-center gap-1.5 text-xs text-zinc-400 hover:text-zinc-200 disabled:opacity-40">
+              <RefreshCw className={`h-3 w-3 ${listLoading ? "animate-spin" : ""}`} /> Refresh
+            </button>
+          </div>
+          {listLoading ? (
+            <div className="p-5 text-xs text-zinc-600">Loading…</div>
+          ) : users.length === 0 ? (
+            <div className="p-5 text-sm text-zinc-600">No users registered yet.</div>
+          ) : (
+            <table className="w-full">
+              <thead>
+                <tr className="border-b border-zinc-800">
+                  <th className="px-5 py-2.5 text-left text-[11px] font-semibold uppercase tracking-wider text-zinc-500">User</th>
+                  <th className="px-5 py-2.5 text-left text-[11px] font-semibold uppercase tracking-wider text-zinc-500">Role</th>
+                  <th className="px-5 py-2.5 text-left text-[11px] font-semibold uppercase tracking-wider text-zinc-500">Domains</th>
+                  <th className="px-5 py-2.5 text-left text-[11px] font-semibold uppercase tracking-wider text-zinc-500">Status</th>
+                  <th className="px-5 py-2.5 text-left text-[11px] font-semibold uppercase tracking-wider text-zinc-500">Joined</th>
+                </tr>
+              </thead>
+              <tbody>
+                {users.map((u) => (
+                  <tr key={u.user_id} className="border-b border-zinc-800/50 hover:bg-zinc-800/30 transition-colors last:border-b-0">
+                    <td className="px-5 py-3">
+                      <div className="font-medium text-zinc-100 text-sm">{u.display_name ?? u.user_id}</div>
+                      <div className="text-[11px] font-mono text-zinc-500 mt-0.5">{u.user_id}</div>
+                    </td>
+                    <td className="px-5 py-3 text-xs font-mono text-teal-400">{u.platform_role ?? "end_user"}</td>
+                    <td className="px-5 py-3">
+                      <div className="flex flex-wrap gap-1">
+                        {(u.domain_access ?? []).map((d, i) => (
+                          <span key={i} className="rounded border border-zinc-700 bg-zinc-800 px-1.5 py-0.5 text-[10px] text-zinc-300">
+                            {d.domain}:{d.level}
+                          </span>
+                        ))}
+                      </div>
+                    </td>
+                    <td className="px-5 py-3">
+                      <span className={`inline-flex rounded-md border px-2 py-0.5 text-xs font-medium ${
+                        (u.status ?? "active") === "active"
+                          ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20"
+                          : "bg-zinc-800 text-zinc-400 border-zinc-700"
+                      }`}>
+                        {u.status ?? "active"}
+                      </span>
+                    </td>
+                    <td className="px-5 py-3 text-xs text-zinc-500">
+                      {u.created_at ? new Date(u.created_at).toLocaleDateString() : "—"}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
         </div>
       </main>
     </div>

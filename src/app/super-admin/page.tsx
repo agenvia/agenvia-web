@@ -9,7 +9,6 @@ import {
   XCircle,
   Clock,
   RefreshCw,
-  Shield,
   ShieldAlert,
   Database,
   Cpu,
@@ -17,7 +16,6 @@ import {
   FlaskConical,
   FileText,
   Users,
-  ChevronRight,
   LogOut,
   CircleAlert,
   BadgeCheck,
@@ -163,12 +161,11 @@ function Sidebar({ active, setActive, logout }: { active: Screen; setActive: (s:
   return (
     <aside className="w-56 shrink-0 flex flex-col border-r border-zinc-800 bg-zinc-950 h-screen sticky top-0">
       <div className="flex items-center gap-2 px-4 py-4 border-b border-zinc-800">
-        <div className="flex h-7 w-7 items-center justify-center rounded-md bg-teal-500/10 border border-teal-500/20">
-          <Shield className="h-4 w-4 text-teal-400" />
-        </div>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/logo.svg" alt="Agenvia" className="h-7 w-7 rounded-md shrink-0" />
         <div>
-          <p className="text-xs font-bold text-zinc-100 leading-none">Agenvia</p>
-          <p className="text-[10px] text-teal-400 font-semibold mt-0.5">Super Admin</p>
+          <p className="text-sm font-bold text-teal-400 tracking-tight uppercase leading-none">AGENVIA</p>
+          <p className="text-[10px] text-zinc-500 font-semibold mt-0.5">Super Admin</p>
         </div>
       </div>
 
@@ -208,26 +205,27 @@ function Sidebar({ active, setActive, logout }: { active: Screen; setActive: (s:
 // ---------------------------------------------------------------------------
 function TopHeader({ onRefresh, loading }: { onRefresh: () => void; loading: boolean }) {
   return (
-    <header className="sticky top-0 z-20 flex h-12 items-center justify-between border-b border-zinc-800 bg-zinc-950/95 px-6 backdrop-blur-xl">
-      <div className="flex items-center gap-2">
-        <span className="text-xs font-semibold text-zinc-400">Agenvia Control Center</span>
-        <ChevronRight className="h-3 w-3 text-zinc-700" />
-        <span className="text-xs text-zinc-600">Platform Ops</span>
-      </div>
-      <div className="flex items-center gap-3">
-        <div className="flex items-center gap-1.5">
-          <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
-          <span className="text-[10px] font-semibold text-emerald-400">Live</span>
+    <div className="border-b border-zinc-800 bg-gradient-to-br from-zinc-900 via-zinc-900 to-teal-950/30 px-6 py-4 sticky top-0 z-40 flex items-center justify-between gap-4">
+      <div>
+        <div className="flex items-center gap-2 mb-1">
+          <span className="inline-flex items-center gap-1.5 rounded-md border border-teal-500/20 bg-teal-500/10 px-2 py-0.5 text-xs font-medium text-teal-400">
+            <span className="h-1.5 w-1.5 rounded-full bg-teal-400 animate-pulse" />
+            Live
+          </span>
+          <span className="text-xs text-zinc-500 font-mono">Platform Admin · All Tenants</span>
         </div>
-        <button
-          onClick={onRefresh}
-          className="flex items-center gap-1.5 rounded-lg border border-zinc-700 bg-zinc-900 px-3 py-1.5 text-xs font-medium text-zinc-300 hover:border-zinc-600 transition-colors"
-        >
-          <RefreshCw className={`h-3 w-3 ${loading ? "animate-spin" : ""}`} />
-          Refresh
-        </button>
+        <h2 className="text-2xl font-bold text-zinc-50 tracking-tight">Platform Overview</h2>
+        <p className="mt-0.5 text-sm text-zinc-400 max-w-lg">Cross-tenant visibility across all Agenvia client organizations.</p>
       </div>
-    </header>
+      <button
+        onClick={onRefresh}
+        disabled={loading}
+        className="flex items-center gap-2 rounded-md border border-zinc-700 bg-zinc-800 px-3 py-1.5 text-xs text-zinc-300 hover:bg-zinc-700 disabled:opacity-40 transition-colors shrink-0"
+      >
+        <RefreshCw className={`h-3.5 w-3.5 ${loading ? "animate-spin" : ""}`} />
+        Refresh
+      </button>
+    </div>
   );
 }
 
@@ -464,10 +462,50 @@ function SystemOpsScreen({ data }: { data: LiveData | null }) {
 // ---------------------------------------------------------------------------
 // Screen: Tenant Overview
 // ---------------------------------------------------------------------------
+interface CreatedKeys { tenant_id: string; company_name: string; agent_key: string; admin_key: string; note: string }
+
 function TenantOverviewScreen({ data }: { data: LiveData | null }) {
+  const { authFetch } = useConsoleAuth();
   const alerts = data?.alerts ?? [];
 
-  // Derive tenants from real alert data
+  // Create tenant form state
+  const [showForm, setShowForm]       = useState(false);
+  const [tenantId, setTenantId]       = useState("");
+  const [companyName, setCompanyName] = useState("");
+  const [email, setEmail]             = useState("");
+  const [creating, setCreating]       = useState(false);
+  const [formError, setFormError]     = useState<string | null>(null);
+  const [createdKeys, setCreatedKeys] = useState<CreatedKeys | null>(null);
+
+  // DB tenants list
+  const [dbTenants, setDbTenants] = useState<{tenant_id:string;company_name:string;status:string;created_at:string}[]>([]);
+
+  useEffect(() => {
+    authFetch<{tenants: typeof dbTenants}>("/admin/tenants")
+      .then(d => setDbTenants(d.tenants ?? []))
+      .catch(() => {});
+  }, [createdKeys]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  async function handleCreate(e: React.FormEvent) {
+    e.preventDefault();
+    setCreating(true);
+    setFormError(null);
+    try {
+      const result = await authFetch<CreatedKeys>("/admin/tenants", {
+        method: "POST",
+        body: JSON.stringify({ tenant_id: tenantId, company_name: companyName, contact_email: email }),
+      });
+      setCreatedKeys(result);
+      setShowForm(false);
+      setTenantId(""); setCompanyName(""); setEmail("");
+    } catch (e) {
+      setFormError((e as Error).message);
+    } finally {
+      setCreating(false);
+    }
+  }
+
+  // Derive alert stats per tenant
   const tenantMap = alerts.reduce((acc, a) => {
     if (!acc[a.tenant_id]) acc[a.tenant_id] = { id: a.tenant_id, high: 0, medium: 0, low: 0, total: 0 };
     acc[a.tenant_id].total++;
@@ -476,94 +514,161 @@ function TenantOverviewScreen({ data }: { data: LiveData | null }) {
     if (a.severity === "Low")    acc[a.tenant_id].low++;
     return acc;
   }, {} as Record<string, { id: string; high: number; medium: number; low: number; total: number }>);
+  const alertTenants = Object.values(tenantMap).sort((a, b) => b.high - a.high);
 
-  const tenants = Object.values(tenantMap).sort((a, b) => b.high - a.high);
-
-  const statusOf = (t: typeof tenants[number]) =>
+  const statusOf = (t: typeof alertTenants[number]) =>
     t.high > 0 ? "critical" : t.medium > 0 ? "warning" : "healthy";
-
   const statusStyle = (s: string) =>
     s === "critical" ? "text-rose-400 bg-rose-500/10 border-rose-500/25"
     : s === "warning" ? "text-amber-400 bg-amber-500/10 border-amber-500/25"
     : "text-emerald-400 bg-emerald-500/10 border-emerald-500/25";
 
+  const inputCls = "w-full rounded-md border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm text-zinc-100 placeholder-zinc-600 outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500/30 transition-colors";
+
   return (
     <motion.div {...screenFade} className="space-y-6">
-      <div>
-        <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-amber-400 mb-1">Tenant Overview</p>
-        <h1 className="text-xl font-bold text-zinc-50">All organizations on the platform.</h1>
+      <div className="flex items-start justify-between">
+        <div>
+          <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-amber-400 mb-1">Tenant Overview</p>
+          <h1 className="text-xl font-bold text-zinc-50">All organizations on the platform.</h1>
+        </div>
+        <button
+          onClick={() => { setShowForm(v => !v); setCreatedKeys(null); setFormError(null); }}
+          className="flex items-center gap-2 rounded-md bg-teal-600 px-4 py-2 text-sm font-medium text-white hover:bg-teal-500 transition-colors"
+        >
+          + New Tenant
+        </button>
       </div>
+
+      {/* Created keys display — shown once after creation */}
+      {createdKeys && (
+        <div className="rounded-xl border border-teal-500/30 bg-teal-500/5 p-5 space-y-3">
+          <div className="flex items-center gap-2">
+            <BadgeCheck className="h-4 w-4 text-teal-400" />
+            <span className="text-sm font-semibold text-teal-400">Tenant created: {createdKeys.company_name}</span>
+          </div>
+          <p className="text-xs text-zinc-500">{createdKeys.note}</p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <div className="rounded-lg border border-zinc-700 bg-zinc-900 p-3">
+              <p className="text-[10px] font-semibold uppercase tracking-widest text-zinc-500 mb-1">Agent Key <span className="text-zinc-600">(developer .env)</span></p>
+              <code className="text-xs font-mono text-teal-300 break-all select-all">{createdKeys.agent_key}</code>
+            </div>
+            <div className="rounded-lg border border-zinc-700 bg-zinc-900 p-3">
+              <p className="text-[10px] font-semibold uppercase tracking-widest text-zinc-500 mb-1">Admin Key <span className="text-zinc-600">(dashboard login)</span></p>
+              <code className="text-xs font-mono text-amber-300 break-all select-all">{createdKeys.admin_key}</code>
+            </div>
+          </div>
+          <button onClick={() => setCreatedKeys(null)} className="text-xs text-zinc-600 hover:text-zinc-400">Dismiss</button>
+        </div>
+      )}
+
+      {/* Create tenant form */}
+      {showForm && (
+        <div className="rounded-xl border border-zinc-700 bg-zinc-900 p-5">
+          <h3 className="text-sm font-semibold text-zinc-100 mb-4">Create New Tenant</h3>
+          <form onSubmit={handleCreate} className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div>
+              <label className="block text-xs font-medium text-zinc-400 mb-1.5">Tenant ID <span className="text-zinc-600">(lowercase, no spaces)</span></label>
+              <input className={inputCls} value={tenantId} onChange={e => setTenantId(e.target.value)}
+                placeholder="city_general_hospital" pattern="^[a-z0-9_\-]{3,64}$" required />
+            </div>
+            <div>
+              <label className="block text-xs font-medium text-zinc-400 mb-1.5">Company Name</label>
+              <input className={inputCls} value={companyName} onChange={e => setCompanyName(e.target.value)}
+                placeholder="City General Hospital" required />
+            </div>
+            <div>
+              <label className="block text-xs font-medium text-zinc-400 mb-1.5">IT Admin Email</label>
+              <input className={inputCls} type="email" value={email} onChange={e => setEmail(e.target.value)}
+                placeholder="it@hospital.org" required />
+            </div>
+            {formError && (
+              <div className="md:col-span-3 rounded-md border border-red-500/20 bg-red-500/10 px-3 py-2 text-sm text-red-400">{formError}</div>
+            )}
+            <div className="md:col-span-3 flex gap-3">
+              <button type="submit" disabled={creating}
+                className="rounded-md bg-teal-600 px-5 py-2 text-sm font-medium text-white hover:bg-teal-500 disabled:opacity-40 transition-colors">
+                {creating ? "Creating…" : "Create Tenant & Generate Keys"}
+              </button>
+              <button type="button" onClick={() => setShowForm(false)}
+                className="rounded-md border border-zinc-700 px-4 py-2 text-sm text-zinc-400 hover:text-zinc-200 transition-colors">
+                Cancel
+              </button>
+            </div>
+          </form>
+        </div>
+      )}
 
       <div className="grid grid-cols-4 gap-3">
-        <StatCard label="Active Tenants" value={tenants.length || "—"} color="teal" />
-        <StatCard label="Critical"       value={tenants.filter(t => statusOf(t) === "critical").length || "—"} color="rose" />
-        <StatCard label="Warning"        value={tenants.filter(t => statusOf(t) === "warning").length || "—"} color="amber" />
-        <StatCard label="Healthy"        value={tenants.filter(t => statusOf(t) === "healthy").length || "—"} color="emerald" />
+        <StatCard label="Total Tenants"  value={dbTenants.length || alertTenants.length || "—"} color="teal" />
+        <StatCard label="Critical"       value={alertTenants.filter(t => statusOf(t) === "critical").length || "—"} color="rose" />
+        <StatCard label="Warning"        value={alertTenants.filter(t => statusOf(t) === "warning").length || "—"} color="amber" />
+        <StatCard label="Healthy"        value={alertTenants.filter(t => statusOf(t) === "healthy").length || "—"} color="emerald" />
       </div>
 
-      {tenants.length === 0 ? (
-        <div className="rounded-xl border border-zinc-800 bg-zinc-900 p-10 text-center">
-          <p className="text-sm text-zinc-600">No tenant activity recorded yet.</p>
-          <p className="mt-1 text-xs text-zinc-700">Tenants appear here once they generate alerts through the gateway.</p>
+      {/* Registered tenants from DB */}
+      {dbTenants.length > 0 && (
+        <div className="rounded-xl border border-zinc-800 bg-zinc-900 overflow-hidden">
+          <div className="px-5 py-3 border-b border-zinc-800 flex items-center justify-between">
+            <span className="text-xs font-semibold text-zinc-400">Registered Tenants</span>
+          </div>
+          <div className="divide-y divide-zinc-800">
+            {dbTenants.map(t => {
+              const alertStats = tenantMap[t.tenant_id];
+              const status = alertStats ? statusOf(alertStats) : "healthy";
+              return (
+                <div key={t.tenant_id} className="px-5 py-3.5 grid grid-cols-[1.5fr_1fr_1fr_100px] items-center gap-4">
+                  <div className="flex items-center gap-2">
+                    <div className="h-6 w-6 rounded-md bg-zinc-800 border border-zinc-700 flex items-center justify-center text-[9px] font-bold text-zinc-300">
+                      {t.tenant_id.slice(0, 2).toUpperCase()}
+                    </div>
+                    <div>
+                      <div className="text-sm font-medium text-zinc-100">{t.company_name}</div>
+                      <div className="text-[11px] font-mono text-zinc-500">{t.tenant_id}</div>
+                    </div>
+                  </div>
+                  <span className="text-xs text-zinc-400">{alertStats?.total ?? 0} alerts</span>
+                  <span className="text-xs text-zinc-600">{new Date(t.created_at).toLocaleDateString()}</span>
+                  <div className="flex justify-end">
+                    <span className={`inline-flex items-center rounded-full border px-2 py-0.5 text-[10px] font-semibold capitalize ${statusStyle(status)}`}>
+                      {status}
+                    </span>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
         </div>
-      ) : (
-        <>
-          <div className="rounded-xl border border-zinc-800 bg-zinc-900 overflow-hidden">
-            <div className="px-5 py-3 border-b border-zinc-800 grid grid-cols-[1.5fr_80px_80px_80px_100px] text-[10px] font-semibold uppercase tracking-wide text-zinc-600">
-              <span>Tenant ID</span>
-              <span className="text-center">High</span>
-              <span className="text-center">Medium</span>
-              <span className="text-center">Total Alerts</span>
-              <span className="text-center">Status</span>
-            </div>
-            <div className="divide-y divide-zinc-800">
-              {tenants.map(t => {
-                const status = statusOf(t);
-                return (
-                  <div key={t.id} className="px-5 py-3.5 grid grid-cols-[1.5fr_80px_80px_80px_100px] items-center">
-                    <div className="flex items-center gap-2">
-                      <div className="h-6 w-6 rounded-md bg-zinc-800 border border-zinc-700 flex items-center justify-center text-[9px] font-bold text-zinc-300">
-                        {t.id.slice(0, 2).toUpperCase()}
-                      </div>
-                      <span className="text-sm font-mono text-zinc-300">{t.id}</span>
-                    </div>
-                    <span className={`text-center text-xs font-semibold tabular-nums ${t.high > 0 ? "text-rose-400" : "text-zinc-600"}`}>{t.high || "—"}</span>
-                    <span className={`text-center text-xs font-semibold tabular-nums ${t.medium > 0 ? "text-amber-400" : "text-zinc-600"}`}>{t.medium || "—"}</span>
-                    <span className="text-center text-xs text-zinc-400 tabular-nums">{t.total}</span>
-                    <div className="flex justify-center">
-                      <span className={`inline-flex items-center rounded-full border px-2 py-0.5 text-[10px] font-semibold capitalize ${statusStyle(status)}`}>
-                        {status}
-                      </span>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
+      )}
 
-          <div className="rounded-xl border border-zinc-800 bg-zinc-900 p-5">
-            <p className="text-xs font-semibold text-zinc-400 mb-4">Alert volume by tenant</p>
-            <div className="space-y-3">
-              {tenants.map(t => {
-                const max = Math.max(...tenants.map(x => x.total), 1);
-                const pct = Math.round((t.total / max) * 100);
-                const status = statusOf(t);
-                return (
-                  <div key={t.id} className="flex items-center gap-3">
-                    <span className="w-32 text-xs font-mono text-zinc-400 truncate">{t.id}</span>
-                    <div className="flex-1 h-2 rounded-full bg-zinc-800">
-                      <div
-                        className={`h-full rounded-full transition-all ${status === "critical" ? "bg-rose-500" : status === "warning" ? "bg-amber-400" : "bg-emerald-500"}`}
-                        style={{ width: `${pct}%` }}
-                      />
-                    </div>
-                    <span className="w-8 text-right text-xs tabular-nums text-zinc-400">{t.total}</span>
+      {alertTenants.length > 0 && (
+        <div className="rounded-xl border border-zinc-800 bg-zinc-900 p-5">
+          <p className="text-xs font-semibold text-zinc-400 mb-4">Alert volume by tenant</p>
+          <div className="space-y-3">
+            {alertTenants.map(t => {
+              const max = Math.max(...alertTenants.map(x => x.total), 1);
+              const pct = Math.round((t.total / max) * 100);
+              const status = statusOf(t);
+              return (
+                <div key={t.id} className="flex items-center gap-3">
+                  <span className="w-32 text-xs font-mono text-zinc-400 truncate">{t.id}</span>
+                  <div className="flex-1 h-2 rounded-full bg-zinc-800">
+                    <div className={`h-full rounded-full transition-all ${status === "critical" ? "bg-rose-500" : status === "warning" ? "bg-amber-400" : "bg-emerald-500"}`}
+                      style={{ width: `${pct}%` }} />
                   </div>
-                );
-              })}
-            </div>
+                  <span className="w-8 text-right text-xs tabular-nums text-zinc-400">{t.total}</span>
+                </div>
+              );
+            })}
           </div>
-        </>
+        </div>
+      )}
+
+      {dbTenants.length === 0 && alertTenants.length === 0 && (
+        <div className="rounded-xl border border-zinc-800 bg-zinc-900 p-10 text-center">
+          <p className="text-sm text-zinc-600">No tenants yet.</p>
+          <p className="mt-1 text-xs text-zinc-700">Click "New Tenant" to onboard your first client.</p>
+        </div>
       )}
     </motion.div>
   );
@@ -844,8 +949,8 @@ export default function SuperAdminDashboard() {
           <span className="text-zinc-800">|</span>
           <div className="flex items-center gap-1.5 text-xs">
             <Eye className="h-3.5 w-3.5 text-zinc-500" />
-            <span className={`font-semibold ${data?.readiness.status === "ok" ? "text-emerald-400" : "text-rose-400"}`}>
-              {data?.readiness.status === "ok" ? "Gateway OK" : "Gateway degraded"}
+            <span className={`font-semibold ${["ok","ready"].includes(data?.readiness.status ?? "") ? "text-emerald-400" : "text-rose-400"}`}>
+              {["ok","ready"].includes(data?.readiness.status ?? "") ? "Gateway OK" : "Gateway degraded"}
             </span>
           </div>
         </div>

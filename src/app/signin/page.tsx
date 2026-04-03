@@ -1,9 +1,11 @@
 import { SignIn } from "@clerk/nextjs";
+import Link from "next/link";
 
 export default function SignInPage() {
   return (
     <div className="min-h-screen bg-zinc-950 flex items-center justify-center px-4">
       <div className="w-full max-w-sm">
+
         <SignIn
           appearance={{
             variables: {
@@ -17,11 +19,11 @@ export default function SignInPage() {
               fontFamily: "inherit",
             },
             elements: {
-              card: "border border-zinc-800 bg-zinc-900 shadow-none rounded-xl",
+              rootBox: "w-full",
+              card: "border border-zinc-800 bg-zinc-900 shadow-none rounded-xl w-full",
+              header: "!hidden",
               footer: "bg-zinc-900 border-t border-zinc-800 rounded-b-xl",
               footerActionText: "text-zinc-500 text-xs",
-              headerTitle: "text-lg font-semibold text-zinc-50",
-              headerSubtitle: "text-sm text-zinc-400",
               formButtonPrimary: "bg-teal-600 hover:bg-teal-500 text-white text-sm font-medium transition-colors",
               formFieldInput: "border border-zinc-700 bg-zinc-800 text-zinc-100 text-sm placeholder-zinc-600 focus:border-teal-500 focus:ring-1 focus:ring-teal-500/30",
               formFieldLabel: "text-xs font-medium text-zinc-400",
@@ -33,9 +35,14 @@ export default function SignInPage() {
               socialButtonsBlockButtonText: "text-zinc-100 text-sm",
             },
           }}
-          afterSignInUrl="/client-dashboard"
+          forceRedirectUrl="/get-started"
           signUpUrl="/signup"
         />
+
+        <p className="text-center text-xs text-zinc-600 mt-4">
+          Looking for the dashboard?{" "}
+          <Link href="/login" className="text-teal-400 hover:text-teal-300">Sign in with API key</Link>
+        </p>
       </div>
     </div>
   );

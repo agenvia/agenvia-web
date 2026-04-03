@@ -54,7 +54,6 @@ export default function ConsolePage() {
   const [alerts, setAlerts]   = useState<Alert[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError]     = useState<string | null>(null);
-  const [lastRefresh, setLastRefresh] = useState(new Date());
 
   async function load() {
     setLoading(true);
@@ -68,7 +67,6 @@ export default function ConsolePage() {
       setMetrics(m);
       setDetails(d);
       setAlerts(a.alerts ?? []);
-      setLastRefresh(new Date());
     } catch (e) {
       setError((e as Error).message);
     } finally {
@@ -79,31 +77,52 @@ export default function ConsolePage() {
   useEffect(() => { load(); }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const actionCounts = details?.gateway_action ?? {};
-  const total  = Object.values(actionCounts).reduce((s, v) => s + (v ?? 0), 0);
-  const blocked = actionCounts["block"] ?? 0;
-  const allowed = actionCounts["allow"] ?? 0;
-  const sanitized = actionCounts["sanitize"] ?? 0;
+  const total     = Object.values(actionCounts).reduce((s, v) => s + (v ?? 0), 0);
+  const blocked   = actionCounts["block"]    ?? 0;
+  const allowed   = actionCounts["allow"]    ?? 0;
+  const minimized = actionCounts["minimize"] ?? 0;
   const recentAlerts = alerts.slice(0, 8);
+
+  // Fixed order for Action Breakdown bars
+  const ACTION_ORDER: [string, string][] = [
+    ["minimize", "bg-blue-500"],
+    ["allow",    "bg-emerald-500"],
+    ["block",    "bg-red-500"],
+    ["sanitize", "bg-amber-500"],
+  ];
 
   return (
     <div className="flex-1 overflow-y-auto">
       {/* Header */}
-      <header className="h-14 border-b border-zinc-800 bg-zinc-900 flex items-center justify-between px-6 sticky top-0 z-40">
+      <div className="border-b border-zinc-800 bg-gradient-to-br from-zinc-900 via-zinc-900 to-teal-950/30 px-6 py-4 sticky top-0 z-40 flex items-center justify-between gap-4">
         <div>
-          <h1 className="text-base font-semibold text-zinc-100">Overview</h1>
-          <p className="text-xs text-zinc-500">
-            Last updated {lastRefresh.toLocaleTimeString()}
+          <div className="flex items-center gap-2 mb-1">
+            <span className="inline-flex items-center gap-1.5 rounded-md border border-teal-500/20 bg-teal-500/10 px-2 py-0.5 text-xs font-medium text-teal-400">
+              <span className="h-1.5 w-1.5 rounded-full bg-teal-400 animate-pulse" />
+              Live
+            </span>
+            <span className="text-xs text-zinc-500 font-mono">
+              {isAdmin ? "Platform Admin · All Tenants" : `Security Console · ${tenantId ?? "org"}`}
+            </span>
+          </div>
+          <h2 className="text-2xl font-bold text-zinc-50 tracking-tight">
+            {isAdmin ? "Platform Overview" : "Security Dashboard"}
+          </h2>
+          <p className="mt-0.5 text-sm text-zinc-400 max-w-lg">
+            {isAdmin
+              ? "Cross-tenant visibility across all Agenvia client organizations."
+              : "Real-time visibility into your AI gateway — every prompt, policy decision, and security event."}
           </p>
         </div>
         <button
           onClick={load}
           disabled={loading}
-          className="flex items-center gap-2 rounded-md border border-zinc-700 bg-zinc-800 px-3 py-1.5 text-xs text-zinc-300 hover:bg-zinc-700 disabled:opacity-40 transition-colors"
+          className="flex items-center gap-2 rounded-md border border-zinc-700 bg-zinc-800 px-3 py-1.5 text-xs text-zinc-300 hover:bg-zinc-700 disabled:opacity-40 transition-colors shrink-0"
         >
           <RefreshCw className={`h-3.5 w-3.5 ${loading ? "animate-spin" : ""}`} />
           Refresh
         </button>
-      </header>
+      </div>
 
       <main className="p-6 max-w-screen-xl mx-auto space-y-6">
         {error && (
@@ -112,43 +131,12 @@ export default function ConsolePage() {
           </div>
         )}
 
-        {/* Hero */}
-        <div className="rounded-lg border border-zinc-800 bg-gradient-to-br from-zinc-900 via-zinc-900 to-teal-950/30 p-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
-          <div>
-            <div className="flex items-center gap-2 mb-2">
-              <span className="inline-flex items-center gap-1.5 rounded-md border border-teal-500/20 bg-teal-500/10 px-2 py-0.5 text-xs font-medium text-teal-400">
-                <span className="h-1.5 w-1.5 rounded-full bg-teal-400 animate-pulse" />
-                Live
-              </span>
-              <span className="text-xs text-zinc-500 font-mono">
-                {isAdmin ? "Platform Admin · All Tenants" : `Security Console · ${tenantId ?? "org"}`}
-              </span>
-            </div>
-            <h2 className="text-2xl font-bold text-zinc-50 tracking-tight">
-              {isAdmin ? "Platform Overview" : "Security Dashboard"}
-            </h2>
-            <p className="mt-1 text-sm text-zinc-400 max-w-lg">
-              {isAdmin
-                ? "Cross-tenant visibility across all Agenvia client organizations — global metrics, alerts, and federated learning status."
-                : "Real-time visibility into your AI gateway — every prompt, policy decision, and security event across your organization."}
-            </p>
-          </div>
-          <div className="flex flex-col gap-1.5 text-right shrink-0">
-            <div className="text-[11px] font-semibold uppercase tracking-widest text-zinc-500">Gateway Status</div>
-            <div className="flex items-center justify-end gap-2">
-              <span className="h-2 w-2 rounded-full bg-emerald-400" />
-              <span className="text-sm font-medium text-emerald-400">All systems operational</span>
-            </div>
-            <div className="text-xs text-zinc-600">{lastRefresh.toLocaleString()}</div>
-          </div>
-        </div>
-
         {/* Stat cards */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-          <StatCard label="Total Requests"  value={loading ? "—" : total}     sub="All time" />
-          <StatCard label="Blocked"         value={loading ? "—" : blocked}   sub="Policy violations" color="red" />
-          <StatCard label="Sanitized"       value={loading ? "—" : sanitized} sub="Entities redacted" color="amber" />
-          <StatCard label="Allowed"         value={loading ? "—" : allowed}   sub="Clean requests"    color="emerald" />
+          <StatCard label="Total Requests" value={loading ? "—" : total}     sub="All time" />
+          <StatCard label="Blocked"        value={loading ? "—" : blocked}   sub="Policy violations" color="red" />
+          <StatCard label="Minimized"      value={loading ? "—" : minimized} sub="Context stripped"   color="teal" />
+          <StatCard label="Allowed"        value={loading ? "—" : allowed}   sub="Clean requests"    color="emerald" />
         </div>
 
         {/* Metrics breakdown + Recent alerts */}
@@ -164,18 +152,21 @@ export default function ConsolePage() {
             <div className="p-5 space-y-3">
               {loading ? (
                 <p className="text-xs text-zinc-600">Loading...</p>
+              ) : total === 0 ? (
+                <p className="text-xs text-zinc-600">No data yet.</p>
               ) : (
-                Object.entries(actionCounts).map(([action, count]) => {
-                  const pct = total > 0 ? Math.round(((count ?? 0) / total) * 100) : 0;
-                  const barColor =
-                    action === "block"    ? "bg-red-500" :
-                    action === "sanitize" ? "bg-amber-500" :
-                    action === "allow"    ? "bg-emerald-500" :
-                    action === "minimize" ? "bg-blue-500" : "bg-zinc-600";
+                ACTION_ORDER.map(([action, barColor]) => {
+                  const count = (actionCounts as Record<string, number>)[action] ?? 0;
+                  const pct = total > 0 ? Math.round((count / total) * 100) : 0;
+                  const label =
+                    action === "minimize" ? "Minimized" :
+                    action === "allow"    ? "Allowed"   :
+                    action === "block"    ? "Blocked"   :
+                    action === "sanitize" ? "Sanitized" : action;
                   return (
                     <div key={action}>
                       <div className="flex items-center justify-between mb-1">
-                        <span className="text-xs font-mono text-zinc-400">{action}</span>
+                        <span className="text-xs font-mono text-zinc-400">{label}</span>
                         <span className="text-xs tabular-nums text-zinc-300">{count} <span className="text-zinc-600">({pct}%)</span></span>
                       </div>
                       <div className="h-1.5 w-full rounded-full bg-zinc-800">
@@ -184,9 +175,6 @@ export default function ConsolePage() {
                     </div>
                   );
                 })
-              )}
-              {!loading && Object.keys(actionCounts).length === 0 && (
-                <p className="text-xs text-zinc-600">No data yet.</p>
               )}
             </div>
           </div>

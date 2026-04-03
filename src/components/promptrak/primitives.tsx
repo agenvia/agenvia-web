@@ -55,7 +55,7 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
           </nav>
           <div className="flex items-center gap-2">
             <Link
-              href="/signin"
+              href="/login"
               className="hidden rounded-full border border-zinc-700 bg-transparent px-3 py-1 text-xs font-medium text-zinc-400 hover:bg-zinc-800 hover:text-zinc-100 transition-colors lg:inline-flex"
             >
               Sign In

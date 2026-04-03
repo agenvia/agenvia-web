@@ -1,19 +1,18 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { ConsoleAuthProvider, useConsoleAuth } from "@/lib/console-auth";
 import {
-  Shield, LayoutDashboard, AlertTriangle, Users,
+  LayoutDashboard, AlertTriangle, Users,
   Network, LogOut, ExternalLink, Building2, Globe,
 } from "lucide-react";
 
 const CLIENT_NAV = [
-  { href: "/console",          label: "Overview",    icon: LayoutDashboard },
-  { href: "/console/alerts",   label: "Alerts",      icon: AlertTriangle },
-  { href: "/console/users",    label: "Users",       icon: Users },
-  { href: "/console/patterns", label: "FL Patterns", icon: Network },
+  { href: "/console",        label: "Overview", icon: LayoutDashboard },
+  { href: "/console/alerts", label: "Alerts",   icon: AlertTriangle },
+  { href: "/console/users",  label: "Users",    icon: Users },
 ];
 
 const ADMIN_NAV = [
@@ -38,19 +37,6 @@ function Sidebar() {
 
   return (
     <aside className="w-60 shrink-0 flex flex-col bg-zinc-900 border-r border-zinc-800 h-screen sticky top-0">
-      {/* Logo */}
-      <div className="h-14 flex items-center gap-2.5 px-4 border-b border-zinc-800">
-        <div className="flex h-7 w-7 items-center justify-center rounded-md bg-teal-500/10 border border-teal-500/20">
-          <Shield className="h-4 w-4 text-teal-400" />
-        </div>
-        <div>
-          <div className="text-sm font-semibold text-zinc-100 leading-none">Agenvia</div>
-          <div className="text-[10px] text-zinc-500 mt-0.5">
-            {isAdmin ? "Platform Admin" : "Security Console"}
-          </div>
-        </div>
-      </div>
-
       {/* Role badge */}
       {role && (
         <div className="px-4 py-2.5 border-b border-zinc-800/60">
@@ -133,15 +119,19 @@ function Sidebar() {
 function ConsoleGuard({ children }: { children: React.ReactNode }) {
   const { token } = useConsoleAuth();
   const router = useRouter();
+  const [checked, setChecked] = useState(false);
 
   useEffect(() => {
-    if (token === null && typeof window !== "undefined") {
-      const stored = sessionStorage.getItem("console_token");
-      if (!stored) router.push("/login");
-    }
-  }, [token, router]);
+    const stored = sessionStorage.getItem("console_token");
+    if (!stored) router.replace("/login");
+    setChecked(true);
+  }, [router]);
 
-  if (!token) return null;
+  if (!checked || !token) return (
+    <div className="min-h-screen bg-zinc-950 flex items-center justify-center">
+      <div className="h-5 w-5 rounded-full border-2 border-teal-500 border-t-transparent animate-spin" />
+    </div>
+  );
 
   return (
     <div className="flex h-screen bg-zinc-950 overflow-hidden">

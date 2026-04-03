@@ -69,6 +69,11 @@ export function ConsoleAuthProvider({ children }: { children: React.ReactNode })
       }
       const data = await res.json();
       const t = data.access_token as string;
+      const claims = parseJwt(t);
+      const raw = (claims.platform_role ?? claims.role ?? "") as string;
+      if (raw === "agent" || raw === "end_user") {
+        throw new Error("Agent keys cannot be used here. Use your Admin Key.");
+      }
       sessionStorage.setItem("console_token", t);
       applyToken(t);
     } catch (e) {

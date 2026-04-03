@@ -18,7 +18,6 @@ import {
   Lock,
   Minus,
   RefreshCw,
-  Shield,
   ShieldAlert,
   ShieldCheck,
   Users,
@@ -135,11 +134,10 @@ function Sidebar({ active, onNavigate }: { active: Screen; onNavigate: (s: Scree
   return (
     <aside className="w-56 shrink-0 flex flex-col bg-zinc-900 border-r border-zinc-800 h-screen sticky top-0">
       <div className="h-14 flex items-center gap-2.5 px-4 border-b border-zinc-800">
-        <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-teal-500/10 border border-teal-500/25 shrink-0">
-          <Shield className="h-4 w-4 text-teal-400" />
-        </div>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/logo.svg" alt="Agenvia" className="h-8 w-8 rounded-lg shrink-0" />
         <div className="leading-none">
-          <div className="text-sm font-bold text-zinc-50 tracking-tight">Agenvia</div>
+          <div className="text-sm font-bold text-teal-400 tracking-tight uppercase">AGENVIA</div>
           <div className="text-[10px] text-zinc-500 mt-0.5">Security Control Plane</div>
         </div>
       </div>
@@ -252,7 +250,7 @@ function CommandCenterScreen({ data, tenantId }: { data: LiveData | null; tenant
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-2 xl:grid-cols-3 gap-4">
+      <div className="grid grid-cols-3 gap-4">
         <StatCard label="Protected Requests" value={total > 0 ? fmt(total) : "—"} sub="All time" accent="teal" />
         <StatCard label="Threats Blocked"    value={blocked > 0 ? fmt(blocked) : "—"} sub="All time" accent="rose" />
         <StatCard label="Flagged Actors"     value={highAlerts > 0 ? highAlerts : "—"} sub="Needs attention" accent="amber" />

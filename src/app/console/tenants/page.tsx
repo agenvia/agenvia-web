@@ -36,7 +36,6 @@ export default function TenantsPage() {
   const [tenants, setTenants] = useState<Tenant[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [lastRefresh, setLastRefresh] = useState(new Date());
 
   async function load() {
     setLoading(true);
@@ -44,7 +43,6 @@ export default function TenantsPage() {
     try {
       const data = await authFetch<TenantsResponse>("/admin/tenants");
       setTenants(data.tenants ?? []);
-      setLastRefresh(new Date());
     } catch (e) {
       setError((e as Error).message);
     } finally {
@@ -73,7 +71,6 @@ export default function TenantsPage() {
       <header className="h-14 border-b border-zinc-800 bg-zinc-900 flex items-center justify-between px-6 sticky top-0 z-40">
         <div>
           <h1 className="text-base font-semibold text-zinc-100">Tenants</h1>
-          <p className="text-xs text-zinc-500">Last updated {lastRefresh.toLocaleTimeString()}</p>
         </div>
         <button
           onClick={load}
