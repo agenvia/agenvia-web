@@ -667,7 +667,7 @@ function TenantOverviewScreen({ data }: { data: LiveData | null }) {
       {dbTenants.length === 0 && alertTenants.length === 0 && (
         <div className="rounded-xl border border-zinc-800 bg-zinc-900 p-10 text-center">
           <p className="text-sm text-zinc-600">No tenants yet.</p>
-          <p className="mt-1 text-xs text-zinc-700">Click "New Tenant" to onboard your first client.</p>
+          <p className="mt-1 text-xs text-zinc-700">Click &quot;New Tenant&quot; to onboard your first client.</p>
         </div>
       )}
     </motion.div>
