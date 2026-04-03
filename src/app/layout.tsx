@@ -30,7 +30,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider localization={{ formFieldLabel__emailAddress: "Email (dashboard user)" }}>
+    <ClerkProvider>
       <html lang="en" suppressHydrationWarning>
         <body
           className={cn(
