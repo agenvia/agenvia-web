@@ -961,13 +961,15 @@ function PatternLabScreen({ data }: { data: LiveData | null }) {
                       <p className="text-xs text-zinc-600 italic">No findings — low-risk allow</p>
                     )}
                   </div>
-                  <button
-                    onClick={() => openModal(topFinding?.label ?? "", topFinding?.text ?? "")}
-                    className="shrink-0 flex items-center gap-1.5 rounded-lg border border-zinc-700 bg-zinc-800 px-3 py-1.5 text-[10px] font-semibold text-zinc-400 hover:border-teal-500/40 hover:text-teal-400 transition-colors whitespace-nowrap"
-                  >
-                    <FlaskConical className="h-3 w-3" />
-                    Add Pattern
-                  </button>
+                  {topFinding && (
+                    <button
+                      onClick={() => openModal(topFinding.label, topFinding.text)}
+                      className="shrink-0 flex items-center gap-1.5 rounded-lg border border-zinc-700 bg-zinc-800 px-3 py-1.5 text-[10px] font-semibold text-zinc-400 hover:border-teal-500/40 hover:text-teal-400 transition-colors whitespace-nowrap"
+                    >
+                      <FlaskConical className="h-3 w-3" />
+                      Add Pattern
+                    </button>
+                  )}
                 </div>
               );
             })}
