@@ -93,6 +93,16 @@ interface MetricsDetails {
   [key: string]: unknown;
 }
 
+interface MissEvent {
+  request_id: string;
+  tenant_id: string;
+  actor_id: string;
+  action: string;
+  risk_score: number;
+  findings: { label: string; text: string; confidence: number; sensitivity_tier: number }[];
+  created_at: string;
+}
+
 interface LiveData {
   alerts: LiveAlert[];
   readiness: Readiness;
@@ -104,6 +114,7 @@ interface LiveData {
   toolEvents?: ToolEvent[];
   flLifecycle?: FlLifecycle;
   metricsDetails?: MetricsDetails;
+  misses?: MissEvent[];
 }
 
 // ---------------------------------------------------------------------------
@@ -696,21 +707,142 @@ function TenantOverviewScreen({ data }: { data: LiveData | null }) {
 }
 
 // ---------------------------------------------------------------------------
-// Screen: Pattern Lab (real FL patterns)
+// Screen: Pattern Lab (real FL patterns + miss detection + Add Pattern)
 // ---------------------------------------------------------------------------
 function PatternLabScreen({ data }: { data: LiveData | null }) {
+  const { authFetch } = useConsoleAuth();
   const patterns = data?.patterns ?? [];
   const fl = data?.flLifecycle;
   const stats = fl ?? data?.patternStats ?? { promoted: 0, candidate: 0, retired: 0, shadow_rejected: 0 };
   const staleCandidatesCount = fl?.stale_candidates?.length ?? 0;
   const candidates = patterns.filter(p => p.status === "candidate");
   const promoted   = patterns.filter(p => p.status === "promoted");
+  const misses     = data?.misses ?? [];
+
+  // Add Pattern modal state
+  const [showModal, setShowModal]   = useState(false);
+  const [seedLabel, setSeedLabel]   = useState("");
+  const [seedPattern, setSeedPattern] = useState("");
+  const [seedConf, setSeedConf]     = useState("0.85");
+  const [seeding, setSeeding]       = useState(false);
+  const [seedError, setSeedError]   = useState<string | null>(null);
+  const [seedDone, setSeedDone]     = useState(false);
+
+  function openModal(prefillLabel = "", prefillPattern = "") {
+    setSeedLabel(prefillLabel);
+    setSeedPattern(prefillPattern);
+    setSeedConf("0.85");
+    setSeedError(null);
+    setSeedDone(false);
+    setShowModal(true);
+  }
+
+  async function handleSeed(e: React.FormEvent) {
+    e.preventDefault();
+    setSeeding(true);
+    setSeedError(null);
+    try {
+      await authFetch("/admin/fl-patterns", {
+        method: "POST",
+        body: JSON.stringify({
+          label: seedLabel.trim(),
+          pattern_text: seedPattern.trim(),
+          confidence: parseFloat(seedConf),
+          description: "Seeded from super-admin miss review",
+        }),
+      });
+      setSeedDone(true);
+    } catch (err) {
+      setSeedError((err as Error).message);
+    } finally {
+      setSeeding(false);
+    }
+  }
+
+  const inputCls = "w-full rounded-md border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm text-zinc-100 placeholder-zinc-600 outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500/30 transition-colors font-mono";
 
   return (
     <motion.div {...screenFade} className="space-y-6">
-      <div>
-        <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-teal-400 mb-1">Pattern Lab</p>
-        <h1 className="text-xl font-bold text-zinc-50">FL patterns and intent model status.</h1>
+      {/* Add Pattern Modal */}
+      <AnimatePresence>
+        {showModal && (
+          <motion.div
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm px-4"
+            onClick={e => { if (e.target === e.currentTarget) setShowModal(false); }}
+          >
+            <motion.div
+              initial={{ scale: 0.95, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.95, opacity: 0 }}
+              className="w-full max-w-lg rounded-2xl border border-zinc-700 bg-zinc-900 p-6 shadow-2xl"
+            >
+              <div className="flex items-center justify-between mb-5">
+                <div className="flex items-center gap-2">
+                  <FlaskConical className="h-4 w-4 text-teal-400" />
+                  <h3 className="text-base font-semibold text-zinc-50">Seed New Pattern</h3>
+                </div>
+                <button onClick={() => setShowModal(false)} className="text-zinc-600 hover:text-zinc-300 text-lg leading-none">×</button>
+              </div>
+
+              {seedDone ? (
+                <div className="rounded-xl border border-emerald-500/20 bg-emerald-500/5 px-5 py-5 text-center space-y-2">
+                  <CheckCircle2 className="h-8 w-8 text-emerald-400 mx-auto" />
+                  <p className="text-sm font-semibold text-emerald-300">Pattern seeded successfully</p>
+                  <p className="text-xs text-zinc-500">Active on all nodes within 5 minutes via hot-reload.</p>
+                  <button onClick={() => setShowModal(false)} className="mt-2 text-xs text-zinc-500 hover:text-zinc-300">Close</button>
+                </div>
+              ) : (
+                <form onSubmit={handleSeed} className="space-y-4">
+                  <div>
+                    <label className="block text-xs font-medium text-zinc-400 mb-1.5">Intent Label</label>
+                    <input className={inputCls} value={seedLabel} onChange={e => setSeedLabel(e.target.value)}
+                      placeholder="data_exfiltration" required />
+                    <p className="mt-1 text-[10px] text-zinc-600">Use existing label names to strengthen a class, or a new name to add one.</p>
+                  </div>
+                  <div>
+                    <label className="block text-xs font-medium text-zinc-400 mb-1.5">Pattern (regex or literal)</label>
+                    <input className={inputCls} value={seedPattern} onChange={e => setSeedPattern(e.target.value)}
+                      placeholder="\bSSN[-\s]?\d{3}-\d{2}-\d{4}\b" required />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-medium text-zinc-400 mb-1.5">
+                      Confidence — <span className="text-teal-400">{seedConf}</span>
+                    </label>
+                    <input type="range" min="0.5" max="1.0" step="0.01"
+                      value={seedConf} onChange={e => setSeedConf(e.target.value)}
+                      className="w-full accent-teal-500" />
+                    <div className="flex justify-between text-[10px] text-zinc-600 mt-0.5"><span>0.5 cautious</span><span>1.0 certain</span></div>
+                  </div>
+                  {seedError && (
+                    <div className="rounded-md border border-rose-500/20 bg-rose-500/10 px-3 py-2 text-sm text-rose-400">{seedError}</div>
+                  )}
+                  <div className="flex gap-3 pt-1">
+                    <button type="submit" disabled={seeding}
+                      className="flex-1 rounded-md bg-teal-600 px-4 py-2 text-sm font-medium text-white hover:bg-teal-500 disabled:opacity-40 transition-colors">
+                      {seeding ? "Seeding…" : "Seed Pattern"}
+                    </button>
+                    <button type="button" onClick={() => setShowModal(false)}
+                      className="rounded-md border border-zinc-700 px-4 py-2 text-sm text-zinc-400 hover:text-zinc-200 transition-colors">
+                      Cancel
+                    </button>
+                  </div>
+                </form>
+              )}
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <div className="flex items-start justify-between">
+        <div>
+          <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-teal-400 mb-1">Pattern Lab</p>
+          <h1 className="text-xl font-bold text-zinc-50">FL patterns and intent model status.</h1>
+        </div>
+        <button
+          onClick={() => openModal()}
+          className="flex items-center gap-2 rounded-md bg-teal-600 px-4 py-2 text-sm font-medium text-white hover:bg-teal-500 transition-colors shrink-0"
+        >
+          + Add Pattern
+        </button>
       </div>
 
       <div className="grid grid-cols-5 gap-3">
@@ -785,6 +917,63 @@ function PatternLabScreen({ data }: { data: LiveData | null }) {
           </div>
         </div>
       )}
+
+      {/* Potential Misses — real-time low-confidence allows */}
+      <div className="rounded-xl border border-zinc-800 bg-zinc-900 overflow-hidden">
+        <div className="px-5 py-3 border-b border-zinc-800 flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <CircleAlert className="h-3.5 w-3.5 text-amber-400" />
+            <p className="text-xs font-semibold text-zinc-300">
+              Potential Misses
+              {misses.length > 0 && <span className="ml-2 rounded-full bg-amber-500/15 border border-amber-500/30 text-amber-400 px-1.5 py-0.5 text-[10px]">{misses.length}</span>}
+            </p>
+          </div>
+          <p className="text-[10px] text-zinc-600">Allowed decisions with elevated risk — review and seed patterns</p>
+        </div>
+        {misses.length === 0 ? (
+          <div className="px-5 py-6 text-center">
+            <p className="text-xs text-zinc-600">No elevated-risk allows in recent traffic.</p>
+            <p className="text-[10px] text-zinc-700 mt-1">Decisions with risk_score ≥ 0.20 that were allowed through will appear here.</p>
+          </div>
+        ) : (
+          <div className="divide-y divide-zinc-800">
+            {misses.slice(0, 15).map(m => {
+              const topFinding = m.findings[0];
+              return (
+                <div key={m.request_id} className="px-5 py-3.5 flex items-start justify-between gap-4">
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="text-[10px] font-mono text-zinc-500">{m.tenant_id}</span>
+                      <span className="text-zinc-700">·</span>
+                      <span className={`text-[10px] font-semibold ${m.risk_score >= 0.5 ? "text-rose-400" : m.risk_score >= 0.35 ? "text-amber-400" : "text-zinc-500"}`}>
+                        risk {(m.risk_score * 100).toFixed(0)}%
+                      </span>
+                      <span className="text-zinc-700">·</span>
+                      <span className="text-[10px] text-zinc-600">{fmtTime(m.created_at)}</span>
+                    </div>
+                    {topFinding ? (
+                      <div className="flex items-center gap-2">
+                        <span className="text-[10px] rounded border border-zinc-700 bg-zinc-800 px-1.5 py-0.5 font-mono text-zinc-400">{topFinding.label}</span>
+                        <span className="text-xs text-zinc-400 truncate font-mono">&quot;{topFinding.text}&quot;</span>
+                        <span className="text-[10px] text-zinc-600 shrink-0">{Math.round(topFinding.confidence * 100)}% conf</span>
+                      </div>
+                    ) : (
+                      <p className="text-xs text-zinc-600 italic">No findings — low-risk allow</p>
+                    )}
+                  </div>
+                  <button
+                    onClick={() => openModal(topFinding?.label ?? "", topFinding?.text ?? "")}
+                    className="shrink-0 flex items-center gap-1.5 rounded-lg border border-zinc-700 bg-zinc-800 px-3 py-1.5 text-[10px] font-semibold text-zinc-400 hover:border-teal-500/40 hover:text-teal-400 transition-colors whitespace-nowrap"
+                  >
+                    <FlaskConical className="h-3 w-3" />
+                    Add Pattern
+                  </button>
+                </div>
+              );
+            })}
+          </div>
+        )}
+      </div>
     </motion.div>
   );
 }
@@ -896,16 +1085,17 @@ export default function SuperAdminDashboard() {
     setLoading(true);
     try {
       const headers = { "Content-Type": "application/json", Authorization: `Bearer ${token}` };
-      const [alertsRes, readyRes, metricsRes, patternsRes, auditVerifyRes, auditStatusRes, toolEventsRes, flLifecycleRes, metricsDetailsRes] = await Promise.allSettled([
-        fetch(`${API_BASE}/alerts`,             { headers }).then(r => r.ok ? r.json() : null),
-        fetch(`${API_BASE}/ready`,              { headers }).then(r => r.ok ? r.json() : null),
-        fetch(`${API_BASE}/metrics`,            { headers }).then(r => r.ok ? r.json() : null),
-        fetch(`${API_BASE}/admin/fl-patterns`,  { headers }).then(r => r.ok ? r.json() : null),
-        fetch(`${API_BASE}/audit-chain/verify`, { headers }).then(r => r.ok ? r.json() : null),
-        fetch(`${API_BASE}/audit-chain/status`, { headers }).then(r => r.ok ? r.json() : null),
-        fetch(`${API_BASE}/tool-audit`,         { headers }).then(r => r.ok ? r.json() : null),
-        fetch(`${API_BASE}/fl-lifecycle`,       { headers }).then(r => r.ok ? r.json() : null),
-        fetch(`${API_BASE}/metrics/details`,    { headers }).then(r => r.ok ? r.json() : null),
+      const [alertsRes, readyRes, metricsRes, patternsRes, auditVerifyRes, auditStatusRes, toolEventsRes, flLifecycleRes, metricsDetailsRes, missesRes] = await Promise.allSettled([
+        fetch(`${API_BASE}/alerts`,                  { headers }).then(r => r.ok ? r.json() : null),
+        fetch(`${API_BASE}/ready`,                   { headers }).then(r => r.ok ? r.json() : null),
+        fetch(`${API_BASE}/metrics`,                 { headers }).then(r => r.ok ? r.json() : null),
+        fetch(`${API_BASE}/admin/fl-patterns`,       { headers }).then(r => r.ok ? r.json() : null),
+        fetch(`${API_BASE}/audit-chain/verify`,      { headers }).then(r => r.ok ? r.json() : null),
+        fetch(`${API_BASE}/audit-chain/status`,      { headers }).then(r => r.ok ? r.json() : null),
+        fetch(`${API_BASE}/tool-audit`,              { headers }).then(r => r.ok ? r.json() : null),
+        fetch(`${API_BASE}/fl-lifecycle`,            { headers }).then(r => r.ok ? r.json() : null),
+        fetch(`${API_BASE}/metrics/details`,         { headers }).then(r => r.ok ? r.json() : null),
+        fetch(`${API_BASE}/admin/fl-patterns/misses`,{ headers }).then(r => r.ok ? r.json() : null),
       ]);
       setData({
         alerts:       alertsRes.status === "fulfilled"   ? (alertsRes.value?.alerts   ?? []) : [],
@@ -918,6 +1108,7 @@ export default function SuperAdminDashboard() {
         toolEvents:     toolEventsRes.status === "fulfilled"     ? (toolEventsRes.value?.tool_events ?? []) : undefined,
         flLifecycle:    flLifecycleRes.status === "fulfilled"    ? (flLifecycleRes.value?.stats ?? flLifecycleRes.value) : undefined,
         metricsDetails: metricsDetailsRes.status === "fulfilled" ? metricsDetailsRes.value : undefined,
+        misses:         missesRes.status === "fulfilled"         ? (missesRes.value?.misses ?? []) : undefined,
       });
     } finally {
       setLoading(false);
