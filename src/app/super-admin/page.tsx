@@ -393,13 +393,13 @@ function SystemOpsScreen({ data }: { data: LiveData | null }) {
   const blockRate = total > 0 ? ((blocked / total) * 100).toFixed(1) : "0";
 
   const services = [
-    { name: "Gateway API",       ok: r?.status === "ok",          note: r?.status ?? "unknown" },
-    { name: "AI Connector",      ok: r?.gemini === "configured",  note: r?.gemini ?? "not set" },
-    { name: "Intent Model",      ok: !!r?.intent_model,           note: r?.intent_model ?? "not loaded" },
-    { name: "Router Model",      ok: !!r?.router_model,           note: r?.router_model ?? "not loaded" },
-    { name: "Audit Chain DB",    ok: data?.auditVerify ? data.auditVerify.is_valid : true, note: data?.auditVerify ? (data.auditVerify.is_valid ? "valid" : "chain broken") : "unknown" },
-    { name: "FL Federation",     ok: !!(data?.flLifecycle),       note: data?.flLifecycle ? "connected" : "no data" },
-    { name: "Tool Events",       ok: data?.toolEvents !== undefined, note: data?.toolEvents !== undefined ? `${data.toolEvents.length} events` : "no data" },
+    { name: "Gateway API",       ok: ["ok","ready"].includes(r?.status ?? ""),  note: r?.status ?? "unknown" },
+    { name: "AI Connector",      ok: r?.gemini === "configured",                note: r?.gemini ?? "not set" },
+    { name: "Intent Model",      ok: r?.intent_model === "active",              note: r?.intent_model ?? "not loaded" },
+    { name: "Router Model",      ok: r?.router_model === "active",              note: r?.router_model ?? "not loaded" },
+    { name: "Audit Chain DB",    ok: data?.auditVerify?.is_valid ?? false,      note: data?.auditVerify ? (data.auditVerify.is_valid ? "valid" : "chain broken") : "checking…" },
+    { name: "FL Federation",     ok: !!(data?.flLifecycle),                     note: data?.flLifecycle ? "connected" : "no data" },
+    { name: "Tool Events",       ok: Array.isArray(data?.toolEvents),           note: Array.isArray(data?.toolEvents) ? `${data!.toolEvents!.length} events` : "no data" },
   ];
 
   const allOk = services.every(s => s.ok);
@@ -1148,7 +1148,7 @@ export default function SuperAdminDashboard() {
           <div className="flex items-center gap-1.5 text-xs">
             <Database className="h-3.5 w-3.5 text-zinc-500" />
             <span className={`${data?.auditVerify && !data.auditVerify.is_valid ? "text-rose-400" : "text-zinc-400"}`}>
-              {data?.auditVerify ? (data.auditVerify.is_valid ? "1/1" : "0/1") : "—"}
+              {data === null ? "…" : data?.auditVerify ? (data.auditVerify.is_valid ? "1/1" : "0/1") : "—"}
             </span>
             <span className="text-zinc-600">chains valid</span>
           </div>
