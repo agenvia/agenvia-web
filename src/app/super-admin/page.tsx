@@ -384,7 +384,7 @@ function SystemOpsScreen({ data }: { data: LiveData | null }) {
   const services = [
     { name: "Gateway API",       ok: r?.status === "ok",          note: r?.status ?? "unknown" },
     { name: "AI Connector",      ok: r?.gemini === "configured",  note: r?.gemini ?? "not set" },
-    { name: "SetFit Model",      ok: !!r?.intent_model,           note: r?.intent_model ?? "not loaded" },
+    { name: "Intent Model",      ok: !!r?.intent_model,           note: r?.intent_model ?? "not loaded" },
     { name: "Router Model",      ok: !!r?.router_model,           note: r?.router_model ?? "not loaded" },
     { name: "Audit Chain DB",    ok: data?.auditVerify ? data.auditVerify.is_valid : true, note: data?.auditVerify ? (data.auditVerify.is_valid ? "valid" : "chain broken") : "unknown" },
     { name: "FL Federation",     ok: !!(data?.flLifecycle),       note: data?.flLifecycle ? "connected" : "no data" },
