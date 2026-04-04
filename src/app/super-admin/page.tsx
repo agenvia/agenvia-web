@@ -689,7 +689,7 @@ function PatternLabScreen({ data }: { data: LiveData | null }) {
     <motion.div {...screenFade} className="space-y-6">
       <div>
         <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-teal-400 mb-1">Pattern Lab</p>
-        <h1 className="text-xl font-bold text-zinc-50">FL patterns and SetFit model status.</h1>
+        <h1 className="text-xl font-bold text-zinc-50">FL patterns and intent model status.</h1>
       </div>
 
       <div className="grid grid-cols-5 gap-3">
@@ -704,7 +704,7 @@ function PatternLabScreen({ data }: { data: LiveData | null }) {
       <div className="rounded-xl border border-zinc-800 bg-zinc-900 p-5">
         <div className="flex items-center gap-3 mb-3">
           <FlaskConical className="h-5 w-5 text-teal-400" />
-          <p className="text-sm font-semibold text-zinc-100">SetFit Intent Classifier</p>
+          <p className="text-sm font-semibold text-zinc-100">Intent Classifier</p>
           <span className={`ml-auto inline-flex items-center rounded-full border px-2 py-0.5 text-[10px] font-semibold ${data?.readiness?.intent_model ? "text-emerald-400 bg-emerald-500/15 border-emerald-500/30" : "text-zinc-500 bg-zinc-800 border-zinc-700"}`}>
             {data?.readiness?.intent_model ?? "Unknown"}
           </span>
@@ -879,7 +879,7 @@ export default function SuperAdminDashboard() {
         fetch(`${API_BASE}/alerts`,            { headers }).then(r => r.json()),
         fetch(`${API_BASE}/ready`,             { headers }).then(r => r.json()),
         fetch(`${API_BASE}/metrics`,           { headers }).then(r => r.json()),
-        fetch(`${API_BASE}/patterns`,          { headers }).then(r => r.json()),
+        fetch(`${API_BASE}/admin/fl-patterns`,  { headers }).then(r => r.json()),
         fetch(`${API_BASE}/audit-chain/verify`, { headers }).then(r => r.ok ? r.json() : null),
         fetch(`${API_BASE}/audit-chain/status`, { headers }).then(r => r.ok ? r.json() : null),
         fetch(`${API_BASE}/tool-audit`,         { headers }).then(r => r.ok ? r.json() : null),
@@ -895,7 +895,7 @@ export default function SuperAdminDashboard() {
         auditVerify:    auditVerifyRes.status === "fulfilled"    ? auditVerifyRes.value    : undefined,
         auditStatus:    auditStatusRes.status === "fulfilled"    ? auditStatusRes.value    : undefined,
         toolEvents:     toolEventsRes.status === "fulfilled"     ? (toolEventsRes.value?.tool_events ?? []) : undefined,
-        flLifecycle:    flLifecycleRes.status === "fulfilled"    ? flLifecycleRes.value    : undefined,
+        flLifecycle:    flLifecycleRes.status === "fulfilled"    ? (flLifecycleRes.value?.stats ?? flLifecycleRes.value) : undefined,
         metricsDetails: metricsDetailsRes.status === "fulfilled" ? metricsDetailsRes.value : undefined,
       });
     } finally {
