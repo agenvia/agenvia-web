@@ -17,8 +17,8 @@ export default function PricingPage() {
 
       <PageSection
         eyebrow="Plans"
-        title="Contact-sales first, enterprise-ready."
-        description="The page avoids consumer SaaS clutter and focuses on deployment shape."
+        title="Simple, transparent pricing."
+        description="Start with a controlled pilot. Scale to full enterprise coverage when you're ready."
       >
         <div className="grid gap-4 md:grid-cols-2">
           {pricingTiers.map((tier) => (

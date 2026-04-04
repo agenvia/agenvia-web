@@ -242,20 +242,20 @@ const HOW_IT_WORKS = [
   {
     step: "01",
     title: "Authenticate once",
-    body: "Exchange your API key for a short-lived JWT. Carries tenant identity, agent role, and authorized scopes.",
-    code: "POST /auth/token",
+    body: "Exchange your admin key for a short-lived JWT. Carries tenant identity, agent role, and authorized scopes.",
+    code: "POST /auth/login",
   },
   {
     step: "02",
     title: "Evaluate every prompt",
-    body: "Send the prompt before your LLM call. Receive a decision — allow, minimize, block — with full policy trace.",
-    code: `POST /gateway/prompt\n→ { decision,\n    trace,\n    safe_prompt }`,
+    body: "Send the prompt before your LLM call. Receive a decision — allow, minimize, sanitize, or block — with full policy trace.",
+    code: `POST /gateway/chat\n→ { action,\n    risk_score,\n    policy_reasons,\n    safe_prompt }`,
   },
   {
     step: "03",
     title: "Proceed or stop",
     body: "Allow: call your LLM. Minimize: use safe_prompt. Block: return error. Every decision is in the audit chain.",
-    code: `GET /audit/verify\n→ { valid: true,\n    records: 12847 }`,
+    code: `GET /audit-chain/verify\n→ { valid: true,\n    records: 12847 }`,
   },
 ];
 
@@ -275,11 +275,14 @@ const COMPLIANCE_STATS = [
   { val: "226ms",  label: "Avg time to audit record — real-time" },
 ];
 
-const CODE_SNIPPET = `# One import. Three lines.
+const CODE_SNIPPET = `# pip install agenvia
 
 from agenvia import Agenvia
 
-client = Agenvia(api_key="tp_...")
+client = Agenvia(
+  api_key="tp_...",
+  tenant_id="your-org",
+)
 
 decision = client.evaluate(
   prompt=user_prompt,
@@ -288,9 +291,11 @@ decision = client.evaluate(
 
 if decision.action == "allow":
   response = my_llm.complete(user_prompt)
+elif decision.action == "minimize":
+  response = my_llm.complete(decision.safe_prompt)
 
-# decision.policy_trace → full audit record
-# decision.safe_prompt  → PII-abstracted version`;
+# decision.policy_reasons → why this decision
+# decision.risk_score     → threat confidence`;
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
@@ -625,14 +630,14 @@ export default function Home() {
               <span className="text-teal-400">Are they governed?</span>
             </h2>
             <p className="mt-5 text-sm text-zinc-500 max-w-md mx-auto leading-7">
-              Join the waitlist. First design partners get direct access to the team and shape the roadmap.
+              Sign up in minutes. Get your API keys, integrate with three lines of code, and see every prompt decision in real time.
             </p>
             <div className="mt-10 flex flex-wrap justify-center gap-3">
               <Link
-                href="/pricing"
+                href="/signup"
                 className="rounded-full bg-teal-600 px-8 py-3.5 text-sm font-semibold text-white shadow-[0_0_0_1px_rgba(20,184,166,0.4)] transition-all hover:bg-teal-500 hover:shadow-[0_0_28px_rgba(20,184,166,0.3)]"
               >
-                Join the waitlist
+                Get started free
               </Link>
               <Link
                 href="/live-demo"

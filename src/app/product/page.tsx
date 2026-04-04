@@ -20,7 +20,7 @@ export default function ProductPage() {
     <SiteChrome>
       <PageHero
         eyebrow="Product Overview"
-        title="A 9-layer security platform for enterprise AI."
+        title="A layered security platform for AI agents."
         description="Agenvia sits between your tools and every LLM. It enforces identity-aware access, detects threats in multiple languages, governs agent tool calls, and improves privacy intelligence through federated learning — in one deployable layer."
         secondaryCta={{ href: "/live-demo", label: "See Live Flow" }}
         aside={<PlaceholderPanel asset={placeholderAssets.productArchitecture} />}

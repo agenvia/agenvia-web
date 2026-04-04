@@ -73,7 +73,7 @@ export const howItWorks = [
   },
   {
     title: "Detect",
-    body: "Scan prompts with a SetFit intent classifier, FL-promoted regex patterns, and multilingual injection signatures to classify risk.",
+    body: "Scan prompts with a fine-tuned intent classifier, FL-promoted regex patterns, and multilingual injection signatures to classify risk.",
     icon: ScanSearch,
   },
   {
@@ -165,11 +165,11 @@ export const requestStages = [
 ];
 
 export const dashboardStats = [
-  { label: "Protected Requests", value: "2.8M" },
-  { label: "Leakage Blocks", value: "14,208" },
-  { label: "Promoted Patterns", value: "134" },
-  { label: "FL Rounds Completed", value: "312" },
-  { label: "Active Tenants", value: "28" },
+  { label: "Protected Requests", value: "—" },
+  { label: "Leakage Blocks", value: "—" },
+  { label: "Promoted Patterns", value: "—" },
+  { label: "FL Rounds Completed", value: "—" },
+  { label: "Active Tenants", value: "—" },
 ];
 
 export const policyActions = [
@@ -345,30 +345,56 @@ export const useCases: UseCase[] = [
 
 export const pricingTiers = [
   {
-    name: "Pilot",
-    price: "Contact Sales",
+    name: "Free",
+    price: "$0 / month",
     description:
-      "Controlled deployment for one team or workflow with full gateway access, benchmark validation, and hands-on policy tuning.",
+      "Get integrated in minutes. Full security pipeline, no credit card required. For developers building and testing.",
     bullets: [
-      "Full detection pipeline with SetFit + FL patterns",
-      "Role × domain × action-tier access control",
-      "Output leakage guard and audit traces",
-      "Live benchmark validation and policy tuning",
-      "Founding deployment support",
+      "1,000 requests per month",
+      "Intent classification + PII detection",
+      "ABAC policy engine — block, allow, minimize, sanitize",
+      "Tamper-evident audit log",
+      "API keys issued instantly on signup",
+    ],
+  },
+  {
+    name: "Growth",
+    price: "$99 / month",
+    description:
+      "For AI agent builders shipping to production. Full pipeline, federated learning, and dashboard included.",
+    bullets: [
+      "50,000 requests per month",
+      "Everything in Free",
+      "Federated learning — cross-tenant threat intelligence",
+      "Security dashboard for your end clients",
+      "Email support",
+    ],
+  },
+  {
+    name: "Scale",
+    price: "$499 / month",
+    description:
+      "High-volume deployments with advanced policy control and priority support.",
+    bullets: [
+      "500,000 requests per month",
+      "Everything in Growth",
+      "Custom policy rules per agent and actor",
+      "Webhook alerts + incident feed",
+      "Priority support with SLA",
     ],
   },
   {
     name: "Enterprise",
-    price: "Contact Sales",
+    price: "Contact us",
     description:
-      "Full 9-layer security platform with agent governance, federated intelligence, differential privacy, and dedicated enterprise support.",
+      "Unlimited volume, dedicated infrastructure, compliance exports, and hands-on onboarding for regulated industries.",
     bullets: [
-      "Agent runtime and tool governance with approval workflows",
-      "Federated learning with HMAC trust and differential privacy",
-      "Multi-org policy engine with simulation and rollback",
-      "Memory protection and domain-gated access",
-      "Multilingual injection and jailbreak detection",
-      "SLA-backed support and custom policy onboarding",
+      "Unlimited requests",
+      "Everything in Scale",
+      "Data Processing Agreement (DPA)",
+      "Custom FL model per sector",
+      "Dedicated support and policy onboarding",
+      "GDPR / HIPAA / SOX audit exports",
     ],
   },
 ];
@@ -429,7 +455,7 @@ export const requestTimeline = [
   },
   {
     title: "Threat and entity detection",
-    body: "SetFit intent classifier scans for sensitive entities. Multilingual injection and jailbreak patterns (EN/FR/ES/DE) are checked. FL-promoted patterns add tenant-learned signals.",
+    body: "A fine-tuned intent classifier scans for sensitive entities. Multilingual injection and jailbreak patterns (EN/FR/ES/DE) are checked. FL-promoted patterns add tenant-learned signals.",
   },
   {
     title: "Policy decision",
