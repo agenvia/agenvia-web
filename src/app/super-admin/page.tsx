@@ -262,7 +262,7 @@ function IncidentQueueScreen({ data }: { data: LiveData | null }) {
       action: "Review tool audit",
       time: "Live",
     }] : []),
-    ...(data?.readiness.status !== "ok" ? [{
+    ...(!["ok", "ready"].includes(data?.readiness.status ?? "") ? [{
       id: "backend-down",
       severity: "Critical" as const,
       type: "System",
@@ -599,12 +599,33 @@ function TenantOverviewScreen({ data }: { data: LiveData | null }) {
         </div>
       )}
 
-      <div className="grid grid-cols-4 gap-3">
-        <StatCard label="Total Tenants"  value={dbTenants.length || alertTenants.length || "—"} color="teal" />
-        <StatCard label="Critical"       value={alertTenants.filter(t => statusOf(t) === "critical").length || "—"} color="rose" />
-        <StatCard label="Warning"        value={alertTenants.filter(t => statusOf(t) === "warning").length || "—"} color="amber" />
-        <StatCard label="Healthy"        value={alertTenants.filter(t => statusOf(t) === "healthy").length || "—"} color="emerald" />
-      </div>
+      {(() => {
+        // Count status across ALL known tenants (DB list takes precedence)
+        const allIds = dbTenants.length > 0
+          ? dbTenants.map(t => t.tenant_id)
+          : alertTenants.map(t => t.id);
+        const criticalCount = allIds.filter(id => {
+          const a = tenantMap[id];
+          return a ? statusOf(a) === "critical" : false;
+        }).length;
+        const warningCount = allIds.filter(id => {
+          const a = tenantMap[id];
+          return a ? statusOf(a) === "warning" : false;
+        }).length;
+        const healthyCount = allIds.filter(id => {
+          const a = tenantMap[id];
+          return !a || statusOf(a) === "healthy";
+        }).length;
+        const total = allIds.length;
+        return (
+          <div className="grid grid-cols-4 gap-3">
+            <StatCard label="Total Tenants" value={total || "—"} color="teal" />
+            <StatCard label="Critical"      value={criticalCount} color="rose" />
+            <StatCard label="Warning"       value={warningCount}  color="amber" />
+            <StatCard label="Healthy"       value={healthyCount}  color="emerald" />
+          </div>
+        );
+      })()}
 
       {/* Registered tenants from DB */}
       {dbTenants.length > 0 && (
@@ -700,7 +721,7 @@ function PatternLabScreen({ data }: { data: LiveData | null }) {
         <StatCard label="Stale Candidates" value={staleCandidatesCount}   color={staleCandidatesCount > 0 ? "amber" : "default"} sub="No recent votes" />
       </div>
 
-      {/* SetFit Status — model info from readiness endpoint */}
+      {/* Intent Classifier status — from readiness endpoint */}
       <div className="rounded-xl border border-zinc-800 bg-zinc-900 p-5">
         <div className="flex items-center gap-3 mb-3">
           <FlaskConical className="h-5 w-5 text-teal-400" />
