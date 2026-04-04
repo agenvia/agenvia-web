@@ -17,7 +17,7 @@ export default function LoginPage() {
       await login(apiKey.trim());
       // Decode role from the freshly stored token without waiting for React state update
       const stored = sessionStorage.getItem("console_token");
-      let dest = "/client-dashboard";
+      let dest = "/console";
       if (stored) {
         try {
           const claims = JSON.parse(atob(stored.split(".")[1])) as Record<string, unknown>;
