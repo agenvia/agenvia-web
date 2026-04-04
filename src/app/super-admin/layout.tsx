@@ -18,7 +18,7 @@ function SuperAdminGuard({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     if (role !== null && role !== "superadmin") {
-      router.replace("/client-dashboard");
+      router.replace("/console");
     }
   }, [role, router]);
 

@@ -887,7 +887,7 @@ export default function SuperAdminDashboard() {
   // Guard: only superadmin
   useEffect(() => {
     if (role !== null && role !== "superadmin") {
-      router.replace("/client-dashboard");
+      router.replace("/console");
     }
   }, [role, router]);
 
@@ -897,10 +897,10 @@ export default function SuperAdminDashboard() {
     try {
       const headers = { "Content-Type": "application/json", Authorization: `Bearer ${token}` };
       const [alertsRes, readyRes, metricsRes, patternsRes, auditVerifyRes, auditStatusRes, toolEventsRes, flLifecycleRes, metricsDetailsRes] = await Promise.allSettled([
-        fetch(`${API_BASE}/alerts`,            { headers }).then(r => r.json()),
-        fetch(`${API_BASE}/ready`,             { headers }).then(r => r.json()),
-        fetch(`${API_BASE}/metrics`,           { headers }).then(r => r.json()),
-        fetch(`${API_BASE}/admin/fl-patterns`,  { headers }).then(r => r.json()),
+        fetch(`${API_BASE}/alerts`,             { headers }).then(r => r.ok ? r.json() : null),
+        fetch(`${API_BASE}/ready`,              { headers }).then(r => r.ok ? r.json() : null),
+        fetch(`${API_BASE}/metrics`,            { headers }).then(r => r.ok ? r.json() : null),
+        fetch(`${API_BASE}/admin/fl-patterns`,  { headers }).then(r => r.ok ? r.json() : null),
         fetch(`${API_BASE}/audit-chain/verify`, { headers }).then(r => r.ok ? r.json() : null),
         fetch(`${API_BASE}/audit-chain/status`, { headers }).then(r => r.ok ? r.json() : null),
         fetch(`${API_BASE}/tool-audit`,         { headers }).then(r => r.ok ? r.json() : null),
