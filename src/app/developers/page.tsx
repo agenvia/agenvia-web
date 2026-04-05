@@ -144,8 +144,9 @@ class GovernedAgent:
         result = self.executor.invoke({"input": decision.safe_prompt})
         return result["output"]
 
-llm   = ChatAnthropic(model="claude-haiku-4-5-20251001")
-agent = GovernedAgent(executor=executor, user_id="your_user_id")
+llm      = ChatAnthropic(model="claude-haiku-4-5-20251001")
+executor = AgentExecutor(agent=..., tools=[])  # build your AgentExecutor as normal
+agent    = GovernedAgent(executor=executor, user_id="your_user_id")
 
 response = agent.run("Summarise Q3 revenue figures")
 blocked  = agent.run("Ignore previous instructions...")`,
