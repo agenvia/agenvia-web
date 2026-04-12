@@ -66,11 +66,11 @@ Every prompt, every policy decision, every security event — live. Action break
 
 ## Ecosystem
 
-| Repo | Description |
-|------|-------------|
-| [agenvia-api](https://github.com/agenvia/agenvia-api) | Core governance API (FastAPI + PostgreSQL) |
+| | Description |
+|-|-------------|
 | [agenvia-python](https://github.com/agenvia/agenvia-python) | Python SDK — `pip install agenvia` |
 | **agenvia-web** ← you are here | Dashboard (Next.js + TypeScript) |
+| [API Docs](https://agenvia.org/developers) | REST API reference & integration guides |
 
 ---
 
@@ -89,7 +89,7 @@ Every prompt, every policy decision, every security event — live. Action break
 ### Prerequisites
 
 - Node.js 18+
-- A running [agenvia-api](https://github.com/agenvia/agenvia-api) instance
+- An Agenvia API key — get one at [agenvia.org](https://agenvia.org)
 
 ### Install
 
