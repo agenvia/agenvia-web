@@ -1,36 +1,128 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+<div align="center">
+
+<img src="https://agenvia.org/logo.png" alt="Agenvia" width="60" />
+
+# Agenvia Web
+
+**The governance dashboard for your AI agents.**
+
+Real-time visibility into every prompt, policy decision, and security event — across all tenants, all agents, all time.
+
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-agenvia.org-00C9A7?style=for-the-badge)](https://agenvia.org)
+[![Next.js](https://img.shields.io/badge/Next.js-15-black?style=for-the-badge&logo=next.js)](https://nextjs.org)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind-3-06B6D4?style=for-the-badge&logo=tailwindcss)](https://tailwindcss.com)
+
+</div>
+
+---
+
+![Agenvia — Secure and govern your AI agents](docs/hero.png)
+
+> **Block attacks. Enforce policy. Prove it happened.**
+> Agenvia sits between your application and your LLM. Every prompt is classified, every policy is enforced, every decision is permanently recorded.
+
+---
+
+## Screenshots
+
+### Platform Overview — Cross-tenant Incident Command
+
+![Platform Overview](docs/platform-overview.png)
+
+Super-admin view across all Agenvia client organizations. See open incidents requiring action, critical alerts, and pending approvals at a glance — with one-click access to the full policy trace for every blocked request.
+
+---
+
+### Security Dashboard — Per-tenant Real-time Visibility
+
+![Security Dashboard](docs/security-dashboard.png)
+
+Every prompt, every policy decision, every security event — live. Action breakdown by outcome (`blocked`, `minimized`, `allowed`, `sanitized`), recent alert feed with severity and timestamp, and a running total that resets with each deployment window.
+
+---
+
+## Features
+
+| Feature | Description |
+|---------|-------------|
+| **Incident queue** | Open incidents ranked by severity. Each links directly to the full policy trace and audit record. |
+| **Security dashboard** | Real-time request totals, action breakdown chart, and recent alert feed per tenant. |
+| **Tenant overview** | Cross-tenant visibility for platform operators — no context switching required. |
+| **Pattern lab** | Inspect federated learning pattern candidates, promotion status, and false-positive rates. |
+| **Audit integrity** | Tamper-evident audit log viewer. Every gateway decision is permanently recorded. |
+| **User & agent management** | Register users with domain clearances and platform roles. Register agents with allowed tools. |
+| **Policy editor** | Live policy simulation before activation. Version-controlled ruleset with instant rollback. |
+| **Human approval workflow** | Review and action pending tool-execution approvals directly from the dashboard. |
+
+---
+
+## Ecosystem
+
+| Repo | Description |
+|------|-------------|
+| [agenvia-api](https://github.com/agenvia/agenvia-api) | Core governance API (FastAPI + PostgreSQL) |
+| [agenvia-python](https://github.com/agenvia/agenvia-python) | Python SDK — `pip install agenvia` |
+| **agenvia-web** ← you are here | Dashboard (Next.js + TypeScript) |
+
+---
+
+## Tech Stack
+
+- **Framework** — Next.js 15 (App Router)
+- **Language** — TypeScript
+- **Styling** — Tailwind CSS
+- **Components** — Primer React
+- **Deployment** — Vercel
+
+---
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+- Node.js 18+
+- A running [agenvia-api](https://github.com/agenvia/agenvia-api) instance
+
+### Install
+
+```bash
+git clone https://github.com/agenvia/agenvia-web
+cd agenvia-web
+npm install
+```
+
+### Configure
+
+```bash
+cp .env.example .env.local
+# Set NEXT_PUBLIC_API_URL to your agenvia-api base URL
+```
+
+### Run
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# Open http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Build for production
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm run build
+npm start
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+---
 
 ## Deploy on Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/agenvia/agenvia-web)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Set `NEXT_PUBLIC_API_URL` in your Vercel project environment variables to point to your deployed `agenvia-api` instance.
+
+---
+
+## License
+
+MIT
