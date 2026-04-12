@@ -9,6 +9,7 @@
 Real-time visibility into every prompt, policy decision, and security event — across all tenants, all agents, all time.
 
 [![Live Demo](https://img.shields.io/badge/Live%20Demo-agenvia.org-00C9A7?style=for-the-badge)](https://agenvia.org)
+[![Demo Video](https://img.shields.io/badge/Demo%20Video-LinkedIn-0A66C2?style=for-the-badge&logo=linkedin)](https://www.linkedin.com/posts/nazmul-hossen-699765205_agent-security-activity-7445680048428314639-ksSH)
 [![Next.js](https://img.shields.io/badge/Next.js-15-black?style=for-the-badge&logo=next.js)](https://nextjs.org)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-3-06B6D4?style=for-the-badge&logo=tailwindcss)](https://tailwindcss.com)
@@ -21,6 +22,12 @@ Real-time visibility into every prompt, policy decision, and security event — 
 
 > **Block attacks. Enforce policy. Prove it happened.**
 > Agenvia sits between your application and your LLM. Every prompt is classified, every policy is enforced, every decision is permanently recorded.
+
+<div align="center">
+
+**[▶ Watch the demo on LinkedIn](https://www.linkedin.com/posts/nazmul-hossen-699765205_agent-security-activity-7445680048428314639-ksSH)**
+
+</div>
 
 ---
 
